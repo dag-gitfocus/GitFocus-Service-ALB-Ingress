@@ -46,7 +46,7 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 			String timeperiod, String endDate) throws JsonProcessingException {
 		// TODO Auto-generated method stub
 		logger.info("dateBasedCommitDetailsForTeamMembers " + teamName, repoName, timeperiod, endDate);
-		SimpleDateFormat sd = new SimpleDateFormat("MM-dd-yyyy");
+		SimpleDateFormat sd = new SimpleDateFormat("dd-MMM-yyyy");
 		List<Object> teamMembers = null;
 		List<Object[]> memberCommitList = new ArrayList<Object[]>();
 		List<Object[]> memberCommitListResults = new ArrayList<Object[]>();
@@ -126,7 +126,7 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 		String[] linesAddedArr = null;
 		String[] linesRemovedArr = null;
 		String[] fileStatusArr = null;
-		SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd-yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
 		List<Object[]> memberCommitList = new ArrayList<Object[]>();
 		ArrayList<TeamMembersCommitDetailOnDate> commitList = new ArrayList<TeamMembersCommitDetailOnDate>();
 		// get startDate and endDate

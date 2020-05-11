@@ -88,7 +88,6 @@ public class PullCommitGitServiceImpl implements IPullCommitGitService {
 
                 reposName.forEach(repoName -> {
                     repoId = uRepository.findRepoId(repoName);
-                    // get branches for repository(reposName)
                     pullNos = pullMasterRepo.findPullNo(repoId);
                     pullNos.forEach(pullNo -> {
                         for (int page = 0; page <= gitConstant.MAX_PAGE; page++) {

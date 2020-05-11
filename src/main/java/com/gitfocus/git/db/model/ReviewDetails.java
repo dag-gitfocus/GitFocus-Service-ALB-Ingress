@@ -31,9 +31,7 @@ public class ReviewDetails implements Serializable {
     }
 
     @JsonIgnore
-    @JoinColumns({ @JoinColumn(name = "unit_id", referencedColumnName = "unit_id"),
-            @JoinColumn(name = "repo_id", referencedColumnName = "repo_id"),
-            @JoinColumn(name = "pull_number", referencedColumnName = "branch_name") })
+    @JoinColumns({ @JoinColumn(name = "review_id", referencedColumnName = "review_id")})
 
     @Id
     ReviewDetailsCompositeId rDetailCompositeId;
