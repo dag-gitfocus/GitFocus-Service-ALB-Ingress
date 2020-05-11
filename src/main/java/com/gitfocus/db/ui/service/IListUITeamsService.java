@@ -8,7 +8,7 @@ import com.gitfocus.git.db.model.Teams;
  * @author Tech Mahindra
  *
  */
-public interface IListTeams {
+public interface IListUITeamsService {
 
     /**
      * 

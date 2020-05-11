@@ -80,7 +80,7 @@ public class BranchDetailGitServiceImpl implements IBranchDetailGitService {
             reposName.forEach(repoName -> {
                 for (int page = 0; page <= gitConstant.MAX_PAGE; page++) {
                     branchDetailURI = gitConstant.BASE_URI + unitOwner + "/" + repoName + "/branches?" + "page="
-                            + page + "&per_page=" + gitConstant.PER_PAGE_TOTAL_RECORDS + "&";
+                            + page + "&per_page=" + gitConstant.TOTAL_RECORDS_PER_PAGE + "&";
                     branchResult = gitUtil.getGitAPIJsonResponse(branchDetailURI);
                     jsonBranchArray = new JSONArray(branchResult);
                     try {

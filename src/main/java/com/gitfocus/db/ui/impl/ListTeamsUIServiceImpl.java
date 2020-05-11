@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gitfocus.db.ui.service.IListTeams;
+import com.gitfocus.db.ui.service.IListUITeamsService;
 import com.gitfocus.exception.ResourceNotFoundException;
 import com.gitfocus.git.db.model.Teams;
 import com.gitfocus.repository.TeamMembersRepository;
@@ -20,11 +20,11 @@ import com.gitfocus.repository.TeamsRepository;
  */
 
 @Service
-public class ListTeamsServiceImpl implements IListTeams {
+public class ListTeamsUIServiceImpl implements IListUITeamsService {
 
-    private final static Logger logger = LoggerFactory.getLogger(ListTeamsServiceImpl.class);
+    private final static Logger logger = LoggerFactory.getLogger(ListTeamsUIServiceImpl.class);
 
-    public ListTeamsServiceImpl() {
+    public ListTeamsUIServiceImpl() {
         super();
         logger.info("ListTeamsServiceImpl init");
     }

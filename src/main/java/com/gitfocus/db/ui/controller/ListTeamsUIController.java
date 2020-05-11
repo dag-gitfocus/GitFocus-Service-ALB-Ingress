@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gitfocus.db.ui.service.IListTeams;
+import com.gitfocus.db.ui.service.IListUITeamsService;
 import com.gitfocus.git.db.model.Teams;
 
 /**
@@ -17,16 +17,16 @@ import com.gitfocus.git.db.model.Teams;
  * To list no of Teams and corresponding repository for each Teams from database to GUI
  */
 @RestController
-public class ListTeamsController {
+public class ListTeamsUIController {
     
-    private static final Logger logger = LoggerFactory.getLogger(ListTeamsController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ListTeamsUIController.class);
 
-    public ListTeamsController() {
+    public ListTeamsUIController() {
         super();
         logger.info("ListTeamsController init");
     }
     @Autowired
-    private IListTeams teamRepo;
+    private IListUITeamsService teamRepo;
 
     /**
      * 

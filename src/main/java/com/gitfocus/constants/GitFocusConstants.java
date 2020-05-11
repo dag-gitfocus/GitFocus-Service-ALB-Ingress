@@ -11,6 +11,6 @@ public class GitFocusConstants {
 
     public final String BASE_URI = "https://api.github.com/repos/";
     public final String ACCESS_TOKEN = "access_token=";
-    public final int PER_PAGE_TOTAL_RECORDS = 5000;
+    public final int TOTAL_RECORDS_PER_PAGE= 5000;
     public final int MAX_PAGE = 2;
 }

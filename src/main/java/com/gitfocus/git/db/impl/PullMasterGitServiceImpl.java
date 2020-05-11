@@ -124,7 +124,7 @@ public class PullMasterGitServiceImpl implements IPullMasterGitService {
                     for (int page = 0; page <= gitConstant.MAX_PAGE; page++) {
                         // To get Pull review based on all the pull history
                         pullMasterURI = gitFocusConstant.BASE_URI + unitOwner + "/" + repoName + "/pulls?" + "state=all"
-                                + "&" + "page=" + page + "&per_page=" + gitFocusConstant.PER_PAGE_TOTAL_RECORDS + "&";
+                                + "&" + "page=" + page + "&per_page=" + gitFocusConstant.TOTAL_RECORDS_PER_PAGE + "&";
 
                         pullsResult = gitUtil.getGitAPIJsonResponse(pullMasterURI);
                         jsonPullsArray = new JSONArray(pullsResult);
@@ -158,7 +158,7 @@ public class PullMasterGitServiceImpl implements IPullMasterGitService {
 
                             pullNoUri = gitFocusConstant.BASE_URI + unitOwner + "/" + repoName + "/pulls/" + pullNo
                                     + "?" + "state=all" + "&" + "page=" + page + "&per_page="
-                                    + gitFocusConstant.PER_PAGE_TOTAL_RECORDS + "&";
+                                    + gitFocusConstant.TOTAL_RECORDS_PER_PAGE + "&";
 
                             pullNoResults = gitUtil.getGitAPIJsonResponse(pullNoUri);
                             pullNoObjJson = new JSONObject(pullNoResults);

@@ -9,7 +9,7 @@ import com.gitfocus.db.ui.model.PullRequestCount;
  * @author Tech Mahindra
  *
  */
-public interface IPullMasterService {
+public interface IPullMasterUIService {
     /**
      * 
      * @param teamName

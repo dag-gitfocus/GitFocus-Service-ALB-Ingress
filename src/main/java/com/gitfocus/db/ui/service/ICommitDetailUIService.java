@@ -12,7 +12,7 @@ import com.gitfocus.db.ui.model.TeamRepositoryCommitDetails;
  * @author Tech Mahindra
  *
  */
-public interface ICommitDetailService {
+public interface ICommitDetailUIService {
     /**
      * 
      * @param teamName

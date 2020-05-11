@@ -14,7 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gitfocus.db.ui.model.TeamMembersCommitDetail;
 import com.gitfocus.db.ui.model.TeamMembersCommitDetailOnDate;
 import com.gitfocus.db.ui.model.TeamRepositoryCommitDetails;
-import com.gitfocus.db.ui.service.ICommitDetailService;
+import com.gitfocus.db.ui.service.ICommitDetailUIService;
 
 /**
  * @author Tech Mahindra 
@@ -22,17 +22,17 @@ import com.gitfocus.db.ui.service.ICommitDetailService;
  */
 
 @RestController
-public class CommitDetailsController {
+public class CommitDetailsUIController {
 
-    private static final Logger logger = LoggerFactory.getLogger(CommitDetailsController.class);
+    private static final Logger logger = LoggerFactory.getLogger(CommitDetailsUIController.class);
 
-    public CommitDetailsController() {
+    public CommitDetailsUIController() {
         super();
         logger.info("CommitDetailsController init");
     }
 
     @Autowired
-    ICommitDetailService commitService;
+    ICommitDetailUIService commitService;
 
     /**
      * 

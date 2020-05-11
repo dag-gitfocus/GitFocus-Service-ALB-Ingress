@@ -104,7 +104,7 @@ public class GitFocusUtil {
         Date endDate = null;
         String newDate = null;
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd-yyyy");
             sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
             startDate = sdf.parse(date);
 

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gitfocus.db.ui.model.PullRequestCount;
-import com.gitfocus.db.ui.service.IPullMasterService;
+import com.gitfocus.db.ui.service.IPullMasterUIService;
 
 /**
  * @author Tech Mahindra
@@ -19,17 +19,17 @@ import com.gitfocus.db.ui.service.IPullMasterService;
  */
 
 @RestController
-public class PullDetailsController {
+public class PullDetailsUIController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PullDetailsController.class);
+    private static final Logger logger = LoggerFactory.getLogger(PullDetailsUIController.class);
 
-    public PullDetailsController() {
+    public PullDetailsUIController() {
         super();
         logger.info("PullDetailsController init");
     }
 
     @Autowired
-    IPullMasterService pullMasterService;
+    IPullMasterUIService pullMasterService;
 
     /**
      * 

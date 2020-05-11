@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gitfocus.db.ui.model.PullRequestCount;
-import com.gitfocus.db.ui.service.IPullMasterService;
+import com.gitfocus.db.ui.service.IPullMasterUIService;
 import com.gitfocus.exception.ResourceNotFoundException;
 import com.gitfocus.repository.PullMasterRepository;
 import com.gitfocus.repository.TeamMembersRepository;
@@ -22,16 +22,16 @@ import com.gitfocus.repository.TeamMembersRepository;
  * Service class for PullMaster Service fetch the data from DB and show in GUI
  */
 @Service
-public class PullMasterServiceImpl implements IPullMasterService {
+public class PullMasterUIServiceImpl implements IPullMasterUIService {
 
     @Autowired
     TeamMembersRepository teamMemRepos;
     @Autowired
     PullMasterRepository pMasterRepository;
 
-    private final static Logger logger = LoggerFactory.getLogger(PullMasterServiceImpl.class);
+    private final static Logger logger = LoggerFactory.getLogger(PullMasterUIServiceImpl.class);
 
-    public PullMasterServiceImpl() {
+    public PullMasterUIServiceImpl() {
         super();
         logger.info("BranchDetailServiceImpl init");
     }
