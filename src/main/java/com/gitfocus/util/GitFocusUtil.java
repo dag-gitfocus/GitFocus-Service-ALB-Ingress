@@ -30,94 +30,113 @@ import com.gitfocus.repository.UnitsRepository;
 @Service
 public class GitFocusUtil {
 
-    private final static Logger logger = LoggerFactory.getLogger(GitFocusUtil.class);
+	private final static Logger logger = LoggerFactory.getLogger(GitFocusUtil.class);
 
-    public GitFocusUtil() {
-        super();
-        logger.info("GitFocusUtil init");
-    }
+	public GitFocusUtil() {
+		super();
+		logger.info("GitFocusUtil init");
+	}
 
-    @Autowired
-    private UnitsRepository uRepository;
+	@Autowired
+	private UnitsRepository uRepository;
 
-    String accessToken = null;
-    RestTemplate restTemplate = null;
-    ResponseEntity<String> jsonResponse = null;
-    HttpHeaders headers = null;
-    HttpEntity<String> entity = null;
+	String accessToken = null;
+	RestTemplate restTemplate = null;
+	ResponseEntity<String> jsonResponse = null;
+	HttpHeaders headers = null;
+	HttpEntity<String> entity = null;
 
-    /**
-     * Method to add AcceessToken in HTTPHeader
-     * 
-     * @param jsonURL
-     * @return jsonResponse
-     */
-    public String getGitAPIJsonResponse(String jsonURL) {
-        List<Units> units = uRepository.findAll();
-        units.forEach(response -> {
-            if (response.getUnitName().equalsIgnoreCase("TR")) {
-                accessToken = response.getAccessToken();
-                headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                headers.set("Authorization", "Bearer " + accessToken);
-                entity = new HttpEntity<String>(headers);
-                restTemplate = new RestTemplate();
-                jsonResponse = restTemplate.exchange(jsonURL, HttpMethod.GET, entity, String.class);
-            }
-        });
-        return jsonResponse.getBody();
+	/**
+	 * Method to add AcceessToken in HTTPHeader
+	 * 
+	 * @param jsonURL
+	 * @return jsonResponse
+	 */
+	public String getGitAPIJsonResponse(String jsonURL) {
+		logger.info("getGitAPIJsonResponse - Adding AccessToken with jsonURL");
+		List<Units> units = uRepository.findAll();
+		units.forEach(response -> {
+			if (response.getUnitName().equalsIgnoreCase("TR")) {
+				accessToken = response.getAccessToken();
+				headers = new HttpHeaders();
+				headers.setContentType(MediaType.APPLICATION_JSON);
+				headers.set("Authorization", "Bearer " + accessToken);
+				entity = new HttpEntity<String>(headers);
+				restTemplate = new RestTemplate();
+				jsonResponse = restTemplate.exchange(jsonURL, HttpMethod.GET, entity, String.class);
+			}
+		});
+		return jsonResponse.getBody();
 
-    }
+	}
 
-    /**
-     * Method to convert String to Date
-     * 
-     * @param date
-     * @return sDate
-     * @throws ParseException
-     */
-    public static Date stringToDate(String date) {
-        logger.info("Date is  " + date);
-        Timestamp timestamp = null;
-        Date parsedDate = null;
-        try {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-            parsedDate = dateFormat.parse(date);
-            timestamp = new java.sql.Timestamp(parsedDate.getTime());
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return timestamp;
-    }
+	/**
+	 * Method to convert String to Date
+	 * 
+	 * @param date
+	 * @return sDate
+	 * @throws ParseException
+	 */
+	public static Date stringToDate(String date) {
+		logger.info("stringToDate - Date is  " + date);
+		Timestamp timestamp = null;
+		Date parsedDate = null;
+		try {
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+			dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+			parsedDate = dateFormat.parse(date);
+			timestamp = new java.sql.Timestamp(parsedDate.getTime());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return timestamp;
+	}
 
-    /**
-     * Method to get start and endDate
-     * 
-     * @param date
-     * @return Date[]
-     */
-    public static Date[] getStartAndEndDate(String date) {
-        logger.info("Date is  " + date);
-        Date startDate = null;
-        Date endDate = null;
-        String newDate = null;
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-            startDate = sdf.parse(date);
+	/**
+	 * Method to get start and endDate
+	 * 
+	 * @param date
+	 * @return Date[]
+	 */
+	public static Date[] getStartAndEndDate(String date) {
+		logger.info("getStartAndEndDate - Date is  " + date);
+		Date startDate = null;
+		Date endDate = null;
+		String newDate = null;
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+			sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+			startDate = sdf.parse(date);
 
-            Calendar c = Calendar.getInstance();
-            c.setTime(sdf.parse(date));
-            c.add(Calendar.DAY_OF_MONTH, 1);
-            newDate = sdf.format(c.getTime());
-            endDate = sdf.parse(newDate);
+			Calendar c = Calendar.getInstance();
+			c.setTime(sdf.parse(date));
+			c.add(Calendar.DAY_OF_MONTH, 1);
+			newDate = sdf.format(c.getTime());
+			endDate = sdf.parse(newDate);
 
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return new Date[] { startDate, endDate };
-    }
+		} catch (ParseException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
+		return new Date[] { startDate, endDate };
+	}
+
+	/**
+	 * Method to convert Date to String
+	 * @param indate
+	 * @return dateString
+	 */
+	public static String convertStringToDate(Date date) {
+		logger.info("convertStringToDate - Date is  " + date);
+		String dateString = null;
+		SimpleDateFormat sdfr = new SimpleDateFormat("dd-MMM-yyyy");
+		try {
+			dateString = sdfr.format(date);
+		} catch (Exception ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
+		return dateString;
+	}
 }

@@ -24,7 +24,7 @@ import com.gitfocus.repository.UnitReposRepository;
 import com.gitfocus.util.GitFocusUtil;
 
 /**
- * @author Tech Mahindra
+ * @author Tech Mahindra 
  * Service class for CommitDetails fetch the data from DB and show in GUI
  */
 @Service
@@ -126,9 +126,11 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 		String[] linesAddedArr = null;
 		String[] linesRemovedArr = null;
 		String[] fileStatusArr = null;
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+		String[] messageArr = null;
+		ArrayList<String> msgList = new ArrayList<String>();
 		List<Object[]> memberCommitList = new ArrayList<Object[]>();
 		ArrayList<TeamMembersCommitDetailOnDate> commitList = new ArrayList<TeamMembersCommitDetailOnDate>();
+		TeamMembersCommitDetailOnDate model = new TeamMembersCommitDetailOnDate();
 		// get startDate and endDate
 		Date[] inputDates = GitFocusUtil.getStartAndEndDate(commitDate);
 		int repoId = uReposRepository.findRepoId(repoName);
@@ -136,15 +138,10 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 		memberCommitList = commitRepository.getCommitDetailOnDateForMemebers(userName, repoId, inputDates[0],
 				inputDates[1]);
 		for (Object[] obj : memberCommitList) {
-			TeamMembersCommitDetailOnDate model = new TeamMembersCommitDetailOnDate();
-			String user = (String) obj[0];
-			String cDate = sdf.format(obj[1]);
-			String message = (String) obj[2];
+			msgList.add((String) obj[2]);
 			String fileStatus = (String) obj[3];
 			String linesAdded = (String) obj[4];
 			String linedRemoved = (String) obj[5];
-			String messageArr[] = new String[] { message };
-
 			fileStatusArr = fileStatus.split(",");
 			linesAddedArr = linesAdded.split(",");
 			linesRemovedArr = linedRemoved.split(",");
@@ -163,23 +160,27 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 			for (String linesRemovedObj : linesRemovedArr) {
 				totalLinesRemoved = totalLinesRemoved + Integer.parseInt(linesRemovedObj);
 			}
-			model.setUser(user);
-			model.setCommitDate(cDate);
-			model.setCommitMessageArray(messageArr);
-			model.setTotalFilesAdded(String.valueOf(totalFilesAdded));
-			model.setTotalFilesModified(String.valueOf(totalFilesModified));
-			model.setLinesAdded(String.valueOf(totalLinesAdded));
-			model.setLinesRemoved(String.valueOf(totalLinesRemoved));
-
-			commitList.add(model);
-
-			if (commitList.isEmpty()) {
-				logger.error("There is no Records for particular request on commitDetailOnDateForMemebers " + userName, repoName, commitDate);
-				throw new ResourceNotFoundException(
-						"There is no Records for particular request on CommitDetailsService", userName, repoName);
-			}
 		}
-		logger.info("Data processed successfully for commitDetailOnDateForMemebers()  " + userName, repoName, commitDate);
+		model.setUser(userName);
+		model.setCommitDate(GitFocusUtil.convertStringToDate(inputDates[0]));
+		messageArr = msgList.toArray(new String[msgList.size()]);
+		model.setCommitMessageArray(messageArr);
+		model.setTotalFilesAdded(String.valueOf(totalFilesAdded));
+		model.setTotalFilesModified(String.valueOf(totalFilesModified));
+		model.setLinesAdded(String.valueOf(totalLinesAdded));
+		model.setLinesRemoved(String.valueOf(totalLinesRemoved));
+
+		commitList.add(model);
+
+		if (commitList.isEmpty()) {
+			logger.error("There is no Records for particular request on commitDetailOnDateForMemebers " + userName,
+					repoName, commitDate);
+			throw new ResourceNotFoundException("There is no Records for particular request on CommitDetailsService",
+					userName, repoName);
+		}
+
+		logger.info("Data processed successfully for commitDetailOnDateForMemebers()  " + userName, repoName,
+				commitDate);
 		return commitList;
 	}
 
