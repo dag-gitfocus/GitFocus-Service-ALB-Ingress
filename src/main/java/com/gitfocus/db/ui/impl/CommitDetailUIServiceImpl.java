@@ -30,6 +30,13 @@ import com.gitfocus.util.GitFocusUtil;
 @Service
 public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 
+	private final static Logger logger = LoggerFactory.getLogger(CommitDetailUIServiceImpl.class);
+
+	public CommitDetailUIServiceImpl() {
+		super();
+        logger.info("CommitDetailUIServiceImpl init");
+	}
+	
 	@Autowired
 	private UnitReposRepository uReposRepository;
 	@Autowired
@@ -38,8 +45,6 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 	CommitDetailsRepository commitRepository;
 	@Autowired
 	TeamMembersRepository teamMemRepos;
-
-	private final static Logger logger = LoggerFactory.getLogger(CommitDetailUIServiceImpl.class);
 
 	@Override
 	public List<TeamMembersCommitDetail> dateBasedCommitDetailsForTeamMembers(String teamName, String repoName,

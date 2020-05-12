@@ -24,87 +24,87 @@ import com.gitfocus.repository.TeamMembersRepository;
 @Service
 public class PullMasterUIServiceImpl implements IPullMasterUIService {
 
-    @Autowired
-    TeamMembersRepository teamMemRepos;
-    @Autowired
-    PullMasterRepository pMasterRepository;
+	private final static Logger logger = LoggerFactory.getLogger(PullMasterUIServiceImpl.class);
 
-    private final static Logger logger = LoggerFactory.getLogger(PullMasterUIServiceImpl.class);
+	public PullMasterUIServiceImpl() {
+		super();
+		logger.info("PullMasterUIServiceImpl init");
+	}
 
-    public PullMasterUIServiceImpl() {
-        super();
-        logger.info("BranchDetailServiceImpl init");
-    }
+	@Autowired
+	TeamMembersRepository teamMemRepos;
+	@Autowired
+	PullMasterRepository pMasterRepository;
 
-    @Override
-    public List<PullRequestCount> getCountOfPR(String teamName, String repoName, String timeperiod, String endDate)
-            throws JsonProcessingException {
-        // TODO Auto-generated method stub
-        logger.info("getCountofPR " + teamName, repoName, timeperiod, endDate);
-        SimpleDateFormat sd = new SimpleDateFormat("dd-MMM-yyyy");
-        List<Object> teamMembers = null;
-        List<Object[]> memberPullList = new ArrayList<Object[]>();
-        List<Object[]> memberPullListResults = new ArrayList<Object[]>();
-        ArrayList<PullRequestCount> pullList = new ArrayList<PullRequestCount>();
-        int pCount = 0;
+	@Override
+	public List<PullRequestCount> getCountOfPR(String teamName, String repoName, String timeperiod, String endDate)
+			throws JsonProcessingException {
+		// TODO Auto-generated method stub
+		logger.info("getCountofPR " + teamName, repoName, timeperiod, endDate);
+		SimpleDateFormat sd = new SimpleDateFormat("dd-MMM-yyyy");
+		List<Object> teamMembers = null;
+		List<Object[]> memberPullList = new ArrayList<Object[]>();
+		List<Object[]> memberPullListResults = new ArrayList<Object[]>();
+		ArrayList<PullRequestCount> pullList = new ArrayList<PullRequestCount>();
+		int pCount = 0;
 
-        // get team_memebers based on team_name
-        teamMembers = teamMemRepos.getTeamMembersByTeamName(teamName);
+		// get team_memebers based on team_name
+		teamMembers = teamMemRepos.getTeamMembersByTeamName(teamName);
 
-        if (timeperiod.equalsIgnoreCase("oneweek")) {
-            for (Object userId : teamMembers) {
-                memberPullList = pMasterRepository.getPullDetailsForMemberForOneWeek(repoName, userId.toString(),
-                        endDate);
-                for (Object[] obj : memberPullList) {
-                    pCount = ((BigInteger) obj[3]).intValue();
-                    // If PRcount is 0 then userId also 0
-                    // set userId even if PRcount is 0
-                    if (pCount == 0) {
-                        obj[1] = userId.toString();
-                    }
-                }
-                memberPullListResults.addAll(memberPullList);
-            }
-        }
-        if (timeperiod.equalsIgnoreCase("twoweek")) {
-            for (Object userId : teamMembers) {
-                memberPullList = pMasterRepository.getPullDetailsForMemberForTwoWeeks(repoName, userId.toString(),
-                        endDate);
-                for (Object[] obj : memberPullList) {
-                    pCount = ((BigInteger) obj[3]).intValue();
-                    // If PRcount is 0 then userId also 0
-                    // set userId even if PRcount is 0
-                    if (pCount == 0) {
-                        obj[1] = userId.toString();
-                    }
-                }
-                memberPullListResults.addAll(memberPullList);
-            }
-        }
-        for (Object[] obj : memberPullListResults) {
-            PullRequestCount model = new PullRequestCount();
-            String user = (String) obj[1];
-            String createdDate = sd.format(obj[2]);
-            pCount = ((BigInteger) obj[3]).intValue();
-            String prCount = String.valueOf(pCount);
+		if (timeperiod.equalsIgnoreCase("oneweek")) {
+			for (Object userId : teamMembers) {
+				memberPullList = pMasterRepository.getPullDetailsForMemberForOneWeek(repoName, userId.toString(),
+						endDate);
+				for (Object[] obj : memberPullList) {
+					pCount = ((BigInteger) obj[3]).intValue();
+					// If PRcount is 0 then userId also 0
+					// set userId even if PRcount is 0
+					if (pCount == 0) {
+						obj[1] = userId.toString();
+					}
+				}
+				memberPullListResults.addAll(memberPullList);
+			}
+		}
+		if (timeperiod.equalsIgnoreCase("twoweek")) {
+			for (Object userId : teamMembers) {
+				memberPullList = pMasterRepository.getPullDetailsForMemberForTwoWeeks(repoName, userId.toString(),
+						endDate);
+				for (Object[] obj : memberPullList) {
+					pCount = ((BigInteger) obj[3]).intValue();
+					// If PRcount is 0 then userId also 0
+					// set userId even if PRcount is 0
+					if (pCount == 0) {
+						obj[1] = userId.toString();
+					}
+				}
+				memberPullListResults.addAll(memberPullList);
+			}
+		}
+		for (Object[] obj : memberPullListResults) {
+			PullRequestCount model = new PullRequestCount();
+			String user = (String) obj[1];
+			String createdDate = sd.format(obj[2]);
+			pCount = ((BigInteger) obj[3]).intValue();
+			String prCount = String.valueOf(pCount);
 
-            model.setUser(user);
-            model.setPrCreatedDate(createdDate);
-            model.setPrCount(prCount);
+			model.setUser(user);
+			model.setPrCreatedDate(createdDate);
+			model.setPrCount(prCount);
 
-            pullList.add(model);
+			pullList.add(model);
 
-            if (pullList.isEmpty()) {
-                logger.error("There is no Records for particular request on getCountofPR " + teamName, repoName,
-                        timeperiod, endDate);
-                throw new ResourceNotFoundException("There is no Records for particular request on PullDetailsService",
-                        teamName, repoName);
-            }
-        }
+			if (pullList.isEmpty()) {
+				logger.error("There is no Records for particular request on getCountofPR " + teamName, repoName,
+						timeperiod, endDate);
+				throw new ResourceNotFoundException("There is no Records for particular request on PullDetailsService",
+						teamName, repoName);
+			}
+		}
 
-        logger.info("Data processed successfully for getCountofPR()  " + teamName, repoName, timeperiod, endDate);
+		logger.info("Data processed successfully for getCountofPR()  " + teamName, repoName, timeperiod, endDate);
 
-        return pullList;
-    }
+		return pullList;
+	}
 
 }
