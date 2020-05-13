@@ -2,8 +2,8 @@ package com.gitfocus.db.ui.controller;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,32 +21,32 @@ import com.gitfocus.db.ui.service.IPullMasterUIService;
 @RestController
 public class PullDetailsUIController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PullDetailsUIController.class);
+	private static Logger logger = LogManager.getLogger(PullDetailsUIController.class);
 
-    public PullDetailsUIController() {
-        super();
-        logger.info("PullDetailsController init");
-    }
+	public PullDetailsUIController() {
+		super();
+		logger.info("PullDetailsController init");
+	}
 
-    @Autowired
-    IPullMasterUIService pullMasterService;
+	@Autowired
+	IPullMasterUIService pullMasterService;
 
-    /**
-     * 
-     * @param teamName
-     * @param repoName
-     * @param timeperiod
-     * @return dateBasedPullDetailsForTeamMembers
-     */
-    @GetMapping("/gitfocus/getpullrequestcount/{teamName}/{repoName}/{timeperiod}/{endDate}")
-    public List<PullRequestCount> getCountofPR(@PathVariable("teamName") String teamName,
-            @PathVariable("repoName") String repoName, @PathVariable("timeperiod") String timeperiod,
-            @PathVariable("endDate") String endDate) throws JsonProcessingException {
+	/**
+	 * 
+	 * @param teamName
+	 * @param repoName
+	 * @param timeperiod
+	 * @return dateBasedPullDetailsForTeamMembers
+	 */
+	@GetMapping("/gitfocus/getpullrequestcount/{teamName}/{repoName}/{timeperiod}/{endDate}")
+	public List<PullRequestCount> getCountofPR(@PathVariable("teamName") String teamName,
+			@PathVariable("repoName") String repoName, @PathVariable("timeperiod") String timeperiod,
+			@PathVariable("endDate") String endDate) throws JsonProcessingException {
 
-        logger.info("getCountofPR", teamName, repoName, timeperiod, endDate);
-        List<PullRequestCount> pullDetailsJson = null;
-        pullDetailsJson = pullMasterService.getCountOfPR(teamName, repoName, timeperiod, endDate);
-        logger.info("getRepoPullCountWeek Records", pullDetailsJson);
-        return pullDetailsJson;
-    }
+		logger.info("getCountofPR", teamName, repoName, timeperiod, endDate);
+		List<PullRequestCount> pullDetailsJson = null;
+		pullDetailsJson = pullMasterService.getCountOfPR(teamName, repoName, timeperiod, endDate);
+		logger.info("getRepoPullCountWeek Records", pullDetailsJson);
+		return pullDetailsJson;
+	}
 }

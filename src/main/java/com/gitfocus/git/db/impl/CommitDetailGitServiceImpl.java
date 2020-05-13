@@ -4,10 +4,10 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,166 +34,166 @@ import com.gitfocus.util.GitFocusUtil;
 @Service
 public class CommitDetailGitServiceImpl implements ICommitDetailGitService {
 
-    private final static Logger logger = LoggerFactory.getLogger(CommitDetailGitServiceImpl.class);
+	private static Logger logger = LogManager.getLogger(CommitDetailGitServiceImpl.class);
 
-    public CommitDetailGitServiceImpl() {
-        super();
-        logger.info("CommitDetailServiceImpl init");
-    }
+	public CommitDetailGitServiceImpl() {
+		super();
+		logger.info("CommitDetailServiceImpl init");
+	}
 
-    @Autowired
-    private GitFocusConstants gitConstant;
-    @Autowired
-    private UnitReposRepository uReposRepository;
-    @Autowired
-    private UnitsRepository uRepository;
-    @Autowired
-    private CommitDetailsRepository cDetailsRepository;
-    @Autowired
-    private BranchDetailsRepository bDetailsRepository;
-    @Autowired
-    GitFocusUtil gitUtil;
-    @Autowired
-    CommitDetailsRepository commitRepository;
-    @Autowired
-    TeamMembersRepository teamMemRepos;
+	@Autowired
+	private GitFocusConstants gitConstant;
+	@Autowired
+	private UnitReposRepository uReposRepository;
+	@Autowired
+	private UnitsRepository uRepository;
+	@Autowired
+	private CommitDetailsRepository cDetailsRepository;
+	@Autowired
+	private BranchDetailsRepository bDetailsRepository;
+	@Autowired
+	GitFocusUtil gitUtil;
+	@Autowired
+	CommitDetailsRepository commitRepository;
+	@Autowired
+	TeamMembersRepository teamMemRepos;
 
-    List<Units> unitsRecords = null;
-    List<Units> units = null;
-    String jsonResult = null;
-    String unitOwner = null;
-    int unitId = 0;
-    int repoId = 0;
-    String commitsResult = null;
-    String shaId = null;
-    String commitsUri = null;
-    JSONArray jsonResponse = null;
-    JSONObject commitDetailObj = null;
-    JSONObject commitObj1 = null;
-    JSONObject commitObj2 = null;
-    String userId = null;
-    String commitDetailURI = null;
-    String commitDetailShaURI = null;
-    String commitDetailShaResult = null;
-    JSONObject commitDetailShaObj = null;
-    JSONArray commitShaArr = null;
-    JSONObject jsonObj = null;
-    JSONObject jsonShaObj = null;
-    Date cDate = null;
-    String commitDate = null;
-    String messgae = null;
-    List<String> reposName = null;
-    List<String> branches = null;
-    CommitDetails cDetails = new CommitDetails();
-    CommitDetailsCompositeId commitCompositeId = new CommitDetailsCompositeId();
+	List<Units> unitsRecords = null;
+	List<Units> units = null;
+	String jsonResult = null;
+	String unitOwner = null;
+	int unitId = 0;
+	int repoId = 0;
+	String commitsResult = null;
+	String shaId = null;
+	String commitsUri = null;
+	JSONArray jsonResponse = null;
+	JSONObject commitDetailObj = null;
+	JSONObject commitObj1 = null;
+	JSONObject commitObj2 = null;
+	String userId = null;
+	String commitDetailURI = null;
+	String commitDetailShaURI = null;
+	String commitDetailShaResult = null;
+	JSONObject commitDetailShaObj = null;
+	JSONArray commitShaArr = null;
+	JSONObject jsonObj = null;
+	JSONObject jsonShaObj = null;
+	Date cDate = null;
+	String commitDate = null;
+	String messgae = null;
+	List<String> reposName = null;
+	List<String> branches = null;
+	CommitDetails cDetails = new CommitDetails();
+	CommitDetailsCompositeId commitCompositeId = new CommitDetailsCompositeId();
 
-    /**
-     * 
-     * @return boolean
-     * @throws ParseException
-     */
-    @Override
-    public boolean save() {
-        logger.info("CommitDetailServiceImpl save()");
-        boolean result = false;
-        units = (List<Units>) uRepository.findAll();
-        if (units.isEmpty()) {
-            return result;
-        }
-        units.forEach(response -> {
-            unitId = response.getUnitId();
-            unitOwner = response.getUnitOwner();
-            reposName = uReposRepository.findReposName(unitId);
+	/**
+	 * 
+	 * @return boolean
+	 * @throws ParseException
+	 */
+	@Override
+	public boolean save() {
+		logger.info("CommitDetailServiceImpl save()");
+		boolean result = false;
+		units = (List<Units>) uRepository.findAll();
+		if (units.isEmpty()) {
+			return result;
+		}
+		units.forEach(response -> {
+			unitId = response.getUnitId();
+			unitOwner = response.getUnitOwner();
+			reposName = uReposRepository.findReposName(unitId);
 
-            reposName.forEach(repoName -> {
-                repoId = uReposRepository.findRepoId(repoName);
-                // get branches for repository(reposName)
-                branches = bDetailsRepository.getBranchList(repoId);
+			reposName.forEach(repoName -> {
+				repoId = uReposRepository.findRepoId(repoName);
+				// get branches for repository(reposName)
+				branches = bDetailsRepository.getBranchList(repoId);
 
-                branches.forEach(branchName -> {
-                    for (int page = 0; page <= gitConstant.MAX_PAGE; page++) {
-                        commitDetailURI = gitConstant.BASE_URI + unitOwner + "/" + repoName + "/commits?" + "sha="
-                                + branchName + "&page=" + page + "&" + "per_page=" + gitConstant.TOTAL_RECORDS_PER_PAGE + "&";
-                        commitsResult = gitUtil.getGitAPIJsonResponse(commitDetailURI);
-                        jsonResponse = new JSONArray(commitsResult);
+				branches.forEach(branchName -> {
+					for (int page = 0; page <= gitConstant.MAX_PAGE; page++) {
+						commitDetailURI = gitConstant.BASE_URI + unitOwner + "/" + repoName + "/commits?" + "sha="
+								+ branchName + "&page=" + page + "&" + "per_page=" + gitConstant.TOTAL_RECORDS_PER_PAGE + "&";
+						commitsResult = gitUtil.getGitAPIJsonResponse(commitDetailURI);
+						jsonResponse = new JSONArray(commitsResult);
 
-                        for (int i = 0; i < jsonResponse.length(); i++) {
-                            commitDetailObj = jsonResponse.getJSONObject(i);
+						for (int i = 0; i < jsonResponse.length(); i++) {
+							commitDetailObj = jsonResponse.getJSONObject(i);
 
-                            commitObj1 = commitDetailObj.getJSONObject("commit");
-                            commitObj2 = commitObj1.getJSONObject("author");
+							commitObj1 = commitDetailObj.getJSONObject("commit");
+							commitObj2 = commitObj1.getJSONObject("author");
 
-                            shaId = commitDetailObj.getString("sha");
-                            userId = commitObj2.getString("name");
-                            commitDate = commitObj2.getString("date");
-                            cDate = GitFocusUtil.stringToDate(commitDate);
-                            messgae = commitObj1.getString("message");
+							shaId = commitDetailObj.getString("sha");
+							userId = commitObj2.getString("name");
+							commitDate = commitObj2.getString("date");
+							cDate = GitFocusUtil.stringToDate(commitDate);
+							messgae = commitObj1.getString("message");
 
-                            // commit_detail based on sha_id
-                            if (shaId != null) {
+							// commit_detail based on sha_id
+							if (shaId != null) {
 
-                                commitDetailShaURI = gitConstant.BASE_URI + unitOwner + "/" + repoName + "/commits/"
-                                        + shaId + "?";
+								commitDetailShaURI = gitConstant.BASE_URI + unitOwner + "/" + repoName + "/commits/"
+										+ shaId + "?";
 
-                                commitDetailShaResult = gitUtil.getGitAPIJsonResponse(commitDetailShaURI);
-                                commitDetailShaObj = new JSONObject(commitDetailShaResult);
-                                commitShaArr = commitDetailShaObj.getJSONArray("files");
+								commitDetailShaResult = gitUtil.getGitAPIJsonResponse(commitDetailShaURI);
+								commitDetailShaObj = new JSONObject(commitDetailShaResult);
+								commitShaArr = commitDetailShaObj.getJSONArray("files");
 
-                                String fileName = null;
-                                String fileStatus = null;
-                                String linesAdded = null;
-                                String linesRemoved = null;
+								String fileName = null;
+								String fileStatus = null;
+								String linesAdded = null;
+								String linesRemoved = null;
 
-                                for (int j = 0; j < commitShaArr.length(); j++) {
-                                    jsonShaObj = commitShaArr.getJSONObject(j);
-                                    if (fileName == null) {
-                                        fileName = jsonShaObj.getString("filename").concat(",");
-                                    } else {
-                                        fileName = fileName + jsonShaObj.getString("filename").concat(",");
-                                    }
-                                    if (fileStatus == null) {
-                                        fileStatus = jsonShaObj.getString("status").concat(",");
-                                    } else {
-                                        fileStatus = fileStatus + jsonShaObj.getString("status").concat(",");
-                                    }
-                                    if (linesAdded == null) {
-                                        linesAdded = String.valueOf(jsonShaObj.getInt("additions")).concat(",");
-                                    } else {
-                                        linesAdded = linesAdded
-                                                + String.valueOf(jsonShaObj.getInt("additions")).concat(",");
-                                    }
-                                    if (linesRemoved == null) {
-                                        linesRemoved = String.valueOf(jsonShaObj.getInt("deletions")).concat(",");
-                                    } else {
-                                        linesRemoved = linesRemoved
-                                                + String.valueOf(jsonShaObj.getInt("deletions")).concat(",");
-                                    }
+								for (int j = 0; j < commitShaArr.length(); j++) {
+									jsonShaObj = commitShaArr.getJSONObject(j);
+									if (fileName == null) {
+										fileName = jsonShaObj.getString("filename").concat(",");
+									} else {
+										fileName = fileName + jsonShaObj.getString("filename").concat(",");
+									}
+									if (fileStatus == null) {
+										fileStatus = jsonShaObj.getString("status").concat(",");
+									} else {
+										fileStatus = fileStatus + jsonShaObj.getString("status").concat(",");
+									}
+									if (linesAdded == null) {
+										linesAdded = String.valueOf(jsonShaObj.getInt("additions")).concat(",");
+									} else {
+										linesAdded = linesAdded
+												+ String.valueOf(jsonShaObj.getInt("additions")).concat(",");
+									}
+									if (linesRemoved == null) {
+										linesRemoved = String.valueOf(jsonShaObj.getInt("deletions")).concat(",");
+									} else {
+										linesRemoved = linesRemoved
+												+ String.valueOf(jsonShaObj.getInt("deletions")).concat(",");
+									}
 
-                                    commitCompositeId.setUnitId(unitId);
-                                    commitCompositeId.setShaId(shaId);
-                                    commitCompositeId.setRepoId(repoId);
-                                    commitCompositeId.setBranchName(branchName);
+									commitCompositeId.setUnitId(unitId);
+									commitCompositeId.setShaId(shaId);
+									commitCompositeId.setRepoId(repoId);
+									commitCompositeId.setBranchName(branchName);
 
-                                    cDetails.setcCompositeId(commitCompositeId);
+									cDetails.setcCompositeId(commitCompositeId);
 
-                                    cDetails.setCommitDate(cDate);
-                                    cDetails.setUserId(userId);
-                                    cDetails.setMessage(messgae);
-                                    cDetails.setFileName(fileName);
-                                    cDetails.setFileStatus(fileStatus);
-                                    cDetails.setLinesAdded(linesAdded);
-                                    cDetails.setLinesRemoved(linesRemoved);
+									cDetails.setCommitDate(cDate);
+									cDetails.setUserId(userId);
+									cDetails.setMessage(messgae);
+									cDetails.setFileName(fileName);
+									cDetails.setFileStatus(fileStatus);
+									cDetails.setLinesAdded(linesAdded);
+									cDetails.setLinesRemoved(linesRemoved);
 
-                                    cDetailsRepository.save(cDetails);
+									cDetailsRepository.save(cDetails);
 
-                                    logger.info("Records saved in commit_details table in DB");
-                                }
-                            }
-                        }
-                    }
-                });
-            });
-        });
-        return true;
-    }
+									logger.info("Records saved in commit_details table in DB");
+								}
+							}
+						}
+					}
+				});
+			});
+		});
+		return true;
+	}
 }

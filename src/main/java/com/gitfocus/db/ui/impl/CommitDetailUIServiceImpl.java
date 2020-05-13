@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,13 +30,13 @@ import com.gitfocus.util.GitFocusUtil;
 @Service
 public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 
-	private final static Logger logger = LoggerFactory.getLogger(CommitDetailUIServiceImpl.class);
+	private static Logger logger = LogManager.getLogger(CommitDetailUIServiceImpl.class);
 
 	public CommitDetailUIServiceImpl() {
 		super();
-        logger.info("CommitDetailUIServiceImpl init");
+		logger.info("CommitDetailUIServiceImpl init");
 	}
-	
+
 	@Autowired
 	private UnitReposRepository uReposRepository;
 	@Autowired

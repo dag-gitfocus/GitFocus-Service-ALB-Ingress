@@ -5,8 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ import com.gitfocus.repository.TeamMembersRepository;
 @Service
 public class PullMasterUIServiceImpl implements IPullMasterUIService {
 
-	private final static Logger logger = LoggerFactory.getLogger(PullMasterUIServiceImpl.class);
+	private static Logger logger = LogManager.getLogger(PullMasterUIServiceImpl.class);
 
 	public PullMasterUIServiceImpl() {
 		super();

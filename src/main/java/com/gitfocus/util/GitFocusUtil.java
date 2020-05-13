@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -30,7 +30,7 @@ import com.gitfocus.repository.UnitsRepository;
 @Service
 public class GitFocusUtil {
 
-	private final static Logger logger = LoggerFactory.getLogger(GitFocusUtil.class);
+	private static Logger logger = LogManager.getLogger(GitFocusUtil.class);
 
 	public GitFocusUtil() {
 		super();

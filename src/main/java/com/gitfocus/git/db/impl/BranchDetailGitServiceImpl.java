@@ -2,10 +2,10 @@ package com.gitfocus.git.db.impl;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -29,83 +29,83 @@ import com.gitfocus.util.GitFocusUtil;
  */
 @Service
 public class BranchDetailGitServiceImpl implements IBranchDetailGitService {
-    
-    private final static Logger logger = LoggerFactory.getLogger(BranchDetailGitServiceImpl.class);
 
-    public BranchDetailGitServiceImpl() {
-        super();
-        logger.info("BranchDetailServiceImpl init");
-    }
+	private static Logger logger = LogManager.getLogger(BranchDetailGitServiceImpl.class);
 
-    @Autowired
-    private UnitsRepository uReposRepository;
-    @Autowired
-    private GitFocusConstants gitConstant;
-    @Autowired
-    private BranchDetailsRepository branchRepo;
-    @Autowired
-    private UnitReposRepository uRepository;
-    @Autowired
-    GitFocusUtil gitUtil;
+	public BranchDetailGitServiceImpl() {
+		super();
+		logger.info("BranchDetailServiceImpl init");
+	}
 
-    String unitOwner = null;
-    List<String> reposName = null;
-    int unitId = 0;
-    String branchResult = null;
-    String branchDetailURI = null;
-    RestTemplate restTemplate = new RestTemplate();
-    JSONArray jsonBranchArray = null;
-    JSONObject branchObj = null;
-    String branchName = null;
-    int repoId = 0;
+	@Autowired
+	private UnitsRepository uReposRepository;
+	@Autowired
+	private GitFocusConstants gitConstant;
+	@Autowired
+	private BranchDetailsRepository branchRepo;
+	@Autowired
+	private UnitReposRepository uRepository;
+	@Autowired
+	GitFocusUtil gitUtil;
 
-    BranchDetails branchDetails = new BranchDetails();
-    BranchDetailsCompositeId bCompositeId = new BranchDetailsCompositeId();
+	String unitOwner = null;
+	List<String> reposName = null;
+	int unitId = 0;
+	String branchResult = null;
+	String branchDetailURI = null;
+	RestTemplate restTemplate = new RestTemplate();
+	JSONArray jsonBranchArray = null;
+	JSONObject branchObj = null;
+	String branchName = null;
+	int repoId = 0;
 
-    /*
-     *  Method to get branch_details and store in branch_details table in DB 
-     */
-    @Override
-    public boolean save() {
-        boolean result = false;
-        List<Units> units = uReposRepository.findAll();
-        if (units.isEmpty()) {
-            return result;
-        }
-        units.forEach(response -> {
-            unitId = response.getUnitId();
-            unitOwner = response.getUnitOwner();
-            reposName = uRepository.findReposName(unitId);
-            
-            reposName.forEach(repoName -> {
-                for (int page = 0; page <= gitConstant.MAX_PAGE; page++) {
-                    branchDetailURI = gitConstant.BASE_URI + unitOwner + "/" + repoName + "/branches?" + "page="
-                            + page + "&per_page=" + gitConstant.TOTAL_RECORDS_PER_PAGE + "&";
-                    branchResult = gitUtil.getGitAPIJsonResponse(branchDetailURI);
-                    jsonBranchArray = new JSONArray(branchResult);
-                    try {
-                        for (int i = 0; i < jsonBranchArray.length(); i++) {
-                            branchObj = jsonBranchArray.getJSONObject(i);
-                            branchName = branchObj.getString("name");
-                            repoId = uRepository.findRepoId(repoName);
-                            
-                            bCompositeId.setUnitId(unitId);
-                            bCompositeId.setRepoId(repoId);
-                            bCompositeId.setBranchName(branchName);
-                            
-                            branchDetails.setbCompositeId(bCompositeId);
-                            //                            branchDetails.setParentBranch(parentBranch);
-                            branchRepo.save(branchDetails);
-                            
-                            logger.info("Records saved in commit_details table in DB");
-                            
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        });
-        return true;
-    }
+	BranchDetails branchDetails = new BranchDetails();
+	BranchDetailsCompositeId bCompositeId = new BranchDetailsCompositeId();
+
+	/*
+	 *  Method to get branch_details and store in branch_details table in DB 
+	 */
+	@Override
+	public boolean save() {
+		boolean result = false;
+		List<Units> units = uReposRepository.findAll();
+		if (units.isEmpty()) {
+			return result;
+		}
+		units.forEach(response -> {
+			unitId = response.getUnitId();
+			unitOwner = response.getUnitOwner();
+			reposName = uRepository.findReposName(unitId);
+
+			reposName.forEach(repoName -> {
+				for (int page = 0; page <= gitConstant.MAX_PAGE; page++) {
+					branchDetailURI = gitConstant.BASE_URI + unitOwner + "/" + repoName + "/branches?" + "page="
+							+ page + "&per_page=" + gitConstant.TOTAL_RECORDS_PER_PAGE + "&";
+					branchResult = gitUtil.getGitAPIJsonResponse(branchDetailURI);
+					jsonBranchArray = new JSONArray(branchResult);
+					try {
+						for (int i = 0; i < jsonBranchArray.length(); i++) {
+							branchObj = jsonBranchArray.getJSONObject(i);
+							branchName = branchObj.getString("name");
+							repoId = uRepository.findRepoId(repoName);
+
+							bCompositeId.setUnitId(unitId);
+							bCompositeId.setRepoId(repoId);
+							bCompositeId.setBranchName(branchName);
+
+							branchDetails.setbCompositeId(bCompositeId);
+							//                            branchDetails.setParentBranch(parentBranch);
+							branchRepo.save(branchDetails);
+
+							logger.info("Records saved in commit_details table in DB");
+
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		});
+		return true;
+	}
 }

@@ -1,7 +1,7 @@
 package com.gitfocus.exception;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -12,34 +12,34 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class ResourceNotFoundException extends RuntimeException {
 
-    private static final Logger logger = LoggerFactory.getLogger(ResourceNotFoundException.class);
+	private static Logger logger = LogManager.getLogger(ResourceNotFoundException.class);
 
-    public ResourceNotFoundException() {
-        super();
-        logger.info("ResourceNotFoundException init");
-    }
+	public ResourceNotFoundException() {
+		super();
+		logger.info("ResourceNotFoundException init");
+	}
 
-    private static final long serialVersionUID = 1L;
-    private String resourceName;
-    private String fieldName;
-    private Object fieldValue;
+	private static final long serialVersionUID = 1L;
+	private String resourceName;
+	private String fieldName;
+	private Object fieldValue;
 
-    public ResourceNotFoundException(String resourceName, String fieldName, Object fieldValue) {
-        super(String.format("%s not found with %s : '%s'", resourceName, fieldName, fieldValue));
-        this.resourceName = resourceName;
-        this.fieldName = fieldName;
-        this.fieldValue = fieldValue;
-    }
+	public ResourceNotFoundException(String resourceName, String fieldName, Object fieldValue) {
+		super(String.format("%s not found with %s : '%s'", resourceName, fieldName, fieldValue));
+		this.resourceName = resourceName;
+		this.fieldName = fieldName;
+		this.fieldValue = fieldValue;
+	}
 
-    public String getResourceName() {
-        return resourceName;
-    }
+	public String getResourceName() {
+		return resourceName;
+	}
 
-    public String getFieldName() {
-        return fieldName;
-    }
+	public String getFieldName() {
+		return fieldName;
+	}
 
-    public Object getFieldValue() {
-        return fieldValue;
-    }
+	public Object getFieldValue() {
+		return fieldValue;
+	}
 }
