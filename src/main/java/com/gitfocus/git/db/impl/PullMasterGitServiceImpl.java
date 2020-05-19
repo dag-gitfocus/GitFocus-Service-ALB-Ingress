@@ -197,7 +197,7 @@ public class PullMasterGitServiceImpl implements IPullMasterGitService {
 
 							pMaster.setPullId(pullId);
 							pMaster.setFromBranch(fromBranch);
-							pMaster.setToBranch(toBranch);
+							pMaster.setToBranch(toBranch); 
 							pMaster.setCreatedTime(creTime);
 							pMaster.setPullStatus(pullState);
 							pMaster.setUserId(userId);

@@ -105,7 +105,7 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 
 			commitList.add(model);
 
-			if (commitList.size() == 0) {
+			if (commitList.size() == 0) { 
 				logger.error("There is no Records for particular request on dateBasedCommitDetailsForTeamMembers "
 						+ teamName, repoName, timeperiod, endDate);
 				throw new ResourceNotFoundException(

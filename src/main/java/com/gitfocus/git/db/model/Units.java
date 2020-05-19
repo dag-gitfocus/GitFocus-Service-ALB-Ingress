@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "units", schema = "gitfocus")
 public class Units implements Serializable {
-
+ 
     /**
      * 
      */

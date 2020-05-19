@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "pull_commit", schema = "gitfocus")
 public class PullCommit implements Serializable {
-
+ 
     /**
      * 
      */

@@ -1,4 +1,4 @@
-package com.gitfocus.db.ui.model;
+package com.gitfocus.db.ui.model; 
 
 import java.io.Serializable;
 

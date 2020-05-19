@@ -41,7 +41,7 @@ public class ListTeamsUIServiceImpl implements IListUITeamsService {
 		// TODO Auto-generated method stub
 		logger.info("ListTeamsServiceImpl - getAllTeams");
 		List<Teams> teams = teamsRepo.findAll();
-		if (teams.size() == 0) {
+		if (teams.size() == 0) { 
 			logger.error("There is no Records getAllTeams");
 			throw new ResourceNotFoundException("There is no Records for particular request on Teams Service", "team",
 					teams);

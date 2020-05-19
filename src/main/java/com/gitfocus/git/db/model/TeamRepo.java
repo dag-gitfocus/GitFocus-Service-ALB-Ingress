@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "team_repo", schema = "gitfocus")
 public class TeamRepo implements Serializable {
-
+ 
     /**
      * 
      */

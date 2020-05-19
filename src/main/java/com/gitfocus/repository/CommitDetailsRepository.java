@@ -34,7 +34,7 @@ public interface CommitDetailsRepository extends JpaRepository<CommitDetails, Ob
      * @param endDate
      * @return getCommitDetailsForMemberForTwoWeek Results
      */
-    @Query(value = "SELECT ur.repo_name ,cd.user_id,d,count(cd.commit_date) from gitfocus.commit_details\r\n"
+    @Query(value = "SELECT ur.repo_name ,cd.user_id,d,count(cd.commit_date) from gitfocus.commit_details\r\n" 
             + "cd join gitfocus.branch_details bd ON (cd.repo_id=bd.repo_id and cd.branch_name=bd.branch_name)\r\n"
             + "join gitfocus.unit_repos ur on (ur.repo_id=bd.repo_id) RIGHT JOIN generate_series( \r\n"
             + "date_trunc('day', (cast(?3 as timestamp) - interval '13 days' )), \r\n"

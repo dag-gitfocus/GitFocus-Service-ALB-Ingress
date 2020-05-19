@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "commit_details", schema = "gitfocus")
 public class CommitDetails implements Serializable {
-
+ 
     /**
      * 
      */

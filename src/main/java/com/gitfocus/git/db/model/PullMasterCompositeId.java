@@ -9,7 +9,7 @@ import javax.persistence.Embeddable;
  * @author Tech Mahindra
  * composite id class for PullMaster
  */
-@Embeddable
+@Embeddable 
 public class PullMasterCompositeId implements Serializable {
 
     /**
