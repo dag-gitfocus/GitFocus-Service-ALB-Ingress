@@ -12,7 +12,7 @@ import javax.persistence.Table;
  * Model class for units table in DB
  */
 @Entity
-@Table(name = "units", schema = "gitschema")
+@Table(name = "units", schema = "gitfocus")
 public class Units implements Serializable {
 
     /**

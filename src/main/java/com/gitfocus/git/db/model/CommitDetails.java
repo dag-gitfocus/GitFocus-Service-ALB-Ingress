@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * Model class for commit_details table in DB
  */
 @Entity
-@Table(name = "commit_details", schema = "gitschema")
+@Table(name = "commit_details", schema = "gitfocus")
 public class CommitDetails implements Serializable {
 
     /**

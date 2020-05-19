@@ -34,9 +34,9 @@ public interface CommitDetailsRepository extends JpaRepository<CommitDetails, Ob
      * @param endDate
      * @return getCommitDetailsForMemberForTwoWeek Results
      */
-    @Query(value = "SELECT ur.repo_name ,cd.user_id,d,count(cd.commit_date) from gitschema.commit_details\r\n"
-            + "cd join gitschema.branch_details bd ON (cd.repo_id=bd.repo_id and cd.branch_name=bd.branch_name)\r\n"
-            + "join gitschema.unit_repos ur on (ur.repo_id=bd.repo_id) RIGHT JOIN generate_series( \r\n"
+    @Query(value = "SELECT ur.repo_name ,cd.user_id,d,count(cd.commit_date) from gitfocus.commit_details\r\n"
+            + "cd join gitfocus.branch_details bd ON (cd.repo_id=bd.repo_id and cd.branch_name=bd.branch_name)\r\n"
+            + "join gitfocus.unit_repos ur on (ur.repo_id=bd.repo_id) RIGHT JOIN generate_series( \r\n"
             + "date_trunc('day', (cast(?3 as timestamp) - interval '13 days' )), \r\n"
             + "date_trunc('day', cast(?3 as timestamp)),'1 day' \r\n"
             + ") AS gs(d) ON d = date_trunc('day',cd.commit_date) and \r\n"
@@ -49,9 +49,9 @@ public interface CommitDetailsRepository extends JpaRepository<CommitDetails, Ob
      * @param endDate
      * @return getCommitDetailsForMemberForOneWeek Results
      */
-    @Query(value = "SELECT ur.repo_name ,cd.user_id,d,count(cd.commit_date) from gitschema.commit_details\r\n"
-            + "cd join gitschema.branch_details bd ON (cd.repo_id=bd.repo_id and cd.branch_name=bd.branch_name)\r\n"
-            + "join gitschema.unit_repos ur on (ur.repo_id=bd.repo_id) RIGHT JOIN generate_series( \r\n"
+    @Query(value = "SELECT ur.repo_name ,cd.user_id,d,count(cd.commit_date) from gitfocus.commit_details\r\n"
+            + "cd join gitfocus.branch_details bd ON (cd.repo_id=bd.repo_id and cd.branch_name=bd.branch_name)\r\n"
+            + "join gitfocus.unit_repos ur on (ur.repo_id=bd.repo_id) RIGHT JOIN generate_series( \r\n"
             + "date_trunc('day', (cast(?3 as timestamp) - interval '6 days' )), \r\n"
             + "date_trunc('day', cast(?3 as timestamp)),'1 day' \r\n"
             + ") AS gs(d) ON d = date_trunc('day',cd.commit_date) and \r\n"
@@ -68,10 +68,10 @@ public interface CommitDetailsRepository extends JpaRepository<CommitDetails, Ob
     @Query("select distinct cm.userId,cm.commitDate,cm.message,cm.fileStatus,cm.linesAdded,cm.linesRemoved,cm.fileName from CommitDetails cm \r\n" + 
             "where cm.userId=:userId \r\n" + 
             "and cm.cCompositeId.repoId=:repoId \r\n" + 
-            "and cm.commitDate >=cast(:startdate as date ) \r\n" + 
-            "and cm.commitDate <= cast(:enddate as date )  \r\n" + 
+            "and cm.commitDate >=cast(:startDate as date ) \r\n" + 
+            "and cm.commitDate <= cast(:endDate as date )  \r\n" + 
             "and cm.fileName is not NULL  order by cm.commitDate")
-    List<Object[]> getCommitDetailOnDateForMemebers(String userId, int repoId, Date startdate, Date enddate);
+    List<Object[]> getCommitDetailOnDateForMemebers(String userId, int repoId, Date startDate, Date endDate);
     /**
      * 
      * @param repoId

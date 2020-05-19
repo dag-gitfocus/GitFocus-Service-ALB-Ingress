@@ -41,7 +41,7 @@ public class ListTeamsUIServiceImpl implements IListUITeamsService {
 		// TODO Auto-generated method stub
 		logger.info("ListTeamsServiceImpl - getAllTeams");
 		List<Teams> teams = teamsRepo.findAll();
-		if (teams.isEmpty()) {
+		if (teams.size() == 0) {
 			logger.error("There is no Records getAllTeams");
 			throw new ResourceNotFoundException("There is no Records for particular request on Teams Service", "team",
 					teams);
@@ -54,7 +54,7 @@ public class ListTeamsUIServiceImpl implements IListUITeamsService {
 		// TODO Auto-generated method stub
 		logger.info("ListTeamsServiceImpl - getTeamMembers");
 		List<Object> teamMembers = teamMembersRepo.getTeamMembersByTeamName(teamName);
-		if (teamMembers.isEmpty()) {
+		if (teamMembers.size() == 0) {
 			logger.error("There is no Records getTeamMembers");
 			throw new ResourceNotFoundException("There is no Records for particular request on Teams Service", teamName,
 					teamName);
@@ -66,7 +66,7 @@ public class ListTeamsUIServiceImpl implements IListUITeamsService {
 	public List<Object> getReposForTeam(String teamName) {
 		logger.info("ListTeamsServiceImpl - getReposForTeam");
 		List<Object> reposForTeam = teamsRepoRepository.getReposForTeam(teamName);
-		if (reposForTeam.isEmpty()) {
+		if (reposForTeam.size() == 0) {
 			logger.error("There is no Records getReposForTeam");
 			throw new ResourceNotFoundException("There is no Records for particular request on Teams Service", teamName,
 					teamName);
@@ -78,7 +78,7 @@ public class ListTeamsUIServiceImpl implements IListUITeamsService {
 	public List<Object> getTeams(int unitId) {
 		logger.info("ListTeamsServiceImpl - getTeams");
 		List<Object> teams = teamsRepo.getTeams(unitId);
-		if (teams.isEmpty()) {
+		if (teams.size() == 0) {
 			logger.error("There is no Records getTeams");
 			throw new ResourceNotFoundException("There is no Records for particular request on Teams Service", "unitId",
 					unitId);

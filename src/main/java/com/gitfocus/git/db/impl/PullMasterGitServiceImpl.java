@@ -196,7 +196,7 @@ public class PullMasterGitServiceImpl implements IPullMasterGitService {
 							// To get Pull review based on pull number - END
 
 							pMaster.setPullId(pullId);
-							pMaster.setFromBranches(fromBranch);
+							pMaster.setFromBranch(fromBranch);
 							pMaster.setToBranch(toBranch);
 							pMaster.setCreatedTime(creTime);
 							pMaster.setPullStatus(pullState);

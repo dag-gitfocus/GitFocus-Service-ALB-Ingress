@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * Model class for pull_master table in DB
  */
 @Entity
-@Table(name = "pull_master", schema = "gitschema")
+@Table(name = "pull_master", schema = "gitfocus")
 public class PullMaster implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,6 +31,7 @@ public class PullMaster implements Serializable {
     @JoinColumns({
             @JoinColumn(name = "unit_id", referencedColumnName = "unit_id", insertable = false, updatable = false),
             @JoinColumn(name = "pull_id", referencedColumnName = "pull_id", insertable = false, updatable = false) })
+    
     @EmbeddedId
     private PullMasterCompositeId pCompositeId;
 
@@ -49,7 +50,7 @@ public class PullMaster implements Serializable {
     private int pullId;
 
     @Column(name = "from_branch")
-    private String fromBranches;
+    private String fromBranch;
 
     @Column(name = "to_branch")
     private String toBranch;
@@ -135,18 +136,18 @@ public class PullMaster implements Serializable {
 
     /**
      * 
-     * @return fromBranches
+     * @return fromBranch
      */
-    public String getFromBranches() {
-        return fromBranches;
+    public String getFromBranch() {
+        return fromBranch;
     }
 
     /**
      * 
-     * @param fromBranches
+     * @param fromBranch
      */
-    public void setFromBranches(String fromBranches) {
-        this.fromBranches = fromBranches;
+    public void setFromBranch(String fromBranch) {
+        this.fromBranch = fromBranch;
     }
 
     /**
@@ -316,7 +317,7 @@ public class PullMaster implements Serializable {
         result = prime * result + ((closedAt == null) ? 0 : closedAt.hashCode());
         result = prime * result + commitCount;
         result = prime * result + ((createdTime == null) ? 0 : createdTime.hashCode());
-        result = prime * result + ((fromBranches == null) ? 0 : fromBranches.hashCode());
+        result = prime * result + ((fromBranch == null) ? 0 : fromBranch.hashCode());
         result = prime * result + (merged ? 1231 : 1237);
         result = prime * result + ((mergedAt == null) ? 0 : mergedAt.hashCode());
         result = prime * result + ((mergedBy == null) ? 0 : mergedBy.hashCode());
@@ -351,10 +352,10 @@ public class PullMaster implements Serializable {
                 return false;
         } else if (!createdTime.equals(other.createdTime))
             return false;
-        if (fromBranches == null) {
-            if (other.fromBranches != null)
+        if (fromBranch == null) {
+            if (other.fromBranch != null)
                 return false;
-        } else if (!fromBranches.equals(other.fromBranches))
+        } else if (!fromBranch.equals(other.fromBranch))
             return false;
         if (merged != other.merged)
             return false;

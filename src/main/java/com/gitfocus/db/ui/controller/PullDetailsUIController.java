@@ -1,5 +1,6 @@
 package com.gitfocus.db.ui.controller;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.gitfocus.db.ui.model.PullMasterCommitDetailOnDate;
 import com.gitfocus.db.ui.model.PullRequestCount;
 import com.gitfocus.db.ui.service.IPullMasterUIService;
 
@@ -49,4 +51,23 @@ public class PullDetailsUIController {
 		logger.info("getRepoPullCountWeek Records", pullDetailsJson);
 		return pullDetailsJson;
 	}
+	
+    /**
+     * 
+     * @param repoName
+     * @param userId
+     * @param commitDate
+     * @return
+     * @throws ParseException
+     */
+    @GetMapping("/gitfocus/getPullDetailsOnDateForTeamMemeber/{repoName}/{userId}/{commitDate}")
+    public List<PullMasterCommitDetailOnDate> getPullDetailsOnDateForTeamMemeber(
+            @PathVariable("repoName") String repoName, @PathVariable("userId") String userId,
+            @PathVariable("commitDate") String commitDate) throws ParseException {
+        logger.info("getPullDetailsOnDateForTeamMemeber", userId, commitDate);
+        List<PullMasterCommitDetailOnDate> pullMasterDetailsOnDateJson = null;
+        pullMasterDetailsOnDateJson = pullMasterService.pullDetailOnDateForTeamMemeber(userId, repoName, commitDate);
+        logger.info("getCommitDetailOnDateForMemebers Records", pullMasterDetailsOnDateJson);
+        return pullMasterDetailsOnDateJson;
+    }
 }

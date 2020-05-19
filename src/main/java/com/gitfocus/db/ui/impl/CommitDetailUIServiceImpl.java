@@ -105,7 +105,7 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 
 			commitList.add(model);
 
-			if (commitList.isEmpty()) {
+			if (commitList.size() == 0) {
 				logger.error("There is no Records for particular request on dateBasedCommitDetailsForTeamMembers "
 						+ teamName, repoName, timeperiod, endDate);
 				throw new ResourceNotFoundException(
@@ -167,7 +167,7 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 			}
 		}
 		model.setUser(userName);
-		model.setCommitDate(GitFocusUtil.convertStringToDate(inputDates[0]));
+		model.setCommitDate(GitFocusUtil.convertDateToString(inputDates[0]));
 		messageArr = msgList.toArray(new String[msgList.size()]);
 		model.setCommitMessageArray(messageArr);
 		model.setTotalFilesAdded(String.valueOf(totalFilesAdded));
@@ -268,7 +268,7 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 		repoCommitDetails.getCommitLables1().add("Total Lines Deleted");
 		repoCommitDetails.getCommitData1().add(totalLinesDeleted);
 
-		if (teamRepoCommitList.isEmpty()) {
+		if (teamRepoCommitList.size() == 0) {
 			logger.error("There is no Records for particular request on CommitDetailsService " + teamName, repoName);
 			throw new ResourceNotFoundException("There is no Records for particular request on CommitDetailsService",
 					teamName, repoName);

@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 
 @Entity
-@Table(name = "branch_details", schema = "gitschema")
+@Table(name = "branch_details", schema = "gitfocus")
 public class BranchDetails implements Serializable {
 
     /**

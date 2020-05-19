@@ -127,7 +127,7 @@ public class GitFocusUtil {
 	 * @param indate
 	 * @return dateString
 	 */
-	public static String convertStringToDate(Date date) {
+	public static String convertDateToString(Date date) {
 		logger.info("convertStringToDate - Date is  " + date);
 		String dateString = null;
 		SimpleDateFormat sdfr = new SimpleDateFormat("dd-MMM-yyyy");
