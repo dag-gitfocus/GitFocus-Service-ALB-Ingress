@@ -1,7 +1,7 @@
 package com.gitfocus.db.ui.impl;
 
 import java.math.BigInteger;
-import java.text.ParseException; 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -123,11 +123,17 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 		List<Object[]> pullMasterList = new ArrayList<Object[]>();
 		ArrayList<PullMasterCommitDetailOnDate> pullList = new ArrayList<PullMasterCommitDetailOnDate>();
 		PullMasterCommitDetailOnDate model = new PullMasterCommitDetailOnDate();
-		boolean merged = false;
-		String mergedStatus = new String();
-		String pullStatus = new String();
-		String fromBranch = new String();
-		String createdTime = new String();
+		ArrayList<String> pullNo = new ArrayList<String>();
+		ArrayList<Boolean> merged = new ArrayList<Boolean>();
+		ArrayList<Boolean> notMerged = new ArrayList<Boolean>();
+		ArrayList<String> fromBranch = new ArrayList<String>();
+		ArrayList<String> createdTime = new ArrayList<String>();
+		boolean mergedStatus = false;
+		String[] pullNoArr = new String[5];
+		Boolean[] mergedArr = null;
+		Boolean[] notMergedArr = null;
+		String[] fromBranchArr = null;
+		String[] createdTimeArr = null;
 		Date cDate = null;
 
 		// get startDate and endDate
@@ -138,19 +144,39 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 		pullMasterList = pullRepository.getPullDetailOnDateForMemebers(userName, repoId, inputDates[0], inputDates[1]);
 
 		for (Object[] obj : pullMasterList) {
-			merged = (boolean) obj[0];
-			mergedStatus = mergedStatus.concat(",") + merged;
-			pullStatus = pullStatus.concat(",") + (String) obj[1];
-			fromBranch = fromBranch.concat(",") + (String) obj[2];
+
+			pullNo.add(String.valueOf((String) obj[0].toString()));
+			mergedStatus = (boolean) obj[1];
+
+			if(mergedStatus == true) {
+				merged.add(mergedStatus);
+			} else {
+				notMerged.add(mergedStatus);
+			}
+
+			fromBranch.add((String) obj[2]);
 			cDate = (Date) obj[3];
-			createdTime = createdTime.concat(",") + GitFocusUtil.convertDateToString(cDate);
+			createdTime.add(GitFocusUtil.convertDateToString(cDate));
 		}
+
 		model.setUser(userName);
 		model.setRepoName(repoName);
-		model.setMerged(mergedStatus.substring(1));
-		model.setPullStatus(pullStatus.substring(1));
-		model.setFromBranch(fromBranch.substring(1));
-		model.setCreatedTime(createdTime.substring(1));
+		model.setCommitDate(GitFocusUtil.convertDateToString(inputDates[0]));
+		
+		pullNoArr = pullNo.toArray(new String[pullNo.size()]);
+		model.setPullNo(pullNoArr);
+		
+		mergedArr = merged.toArray(new Boolean[merged.size()]); 
+		model.setMerged(mergedArr);
+		
+		notMergedArr = notMerged.toArray(new Boolean[notMerged.size()]); 
+		model.setNotMerged(notMergedArr);
+		
+		fromBranchArr = fromBranch.toArray(new String[fromBranch.size()]); 
+		model.setBranchName(fromBranchArr);
+		
+		createdTimeArr = createdTime.toArray(new String[createdTime.size()]);
+		model.setCreatedTime(createdTimeArr);
 
 		pullList.add(model);
 
@@ -160,6 +186,7 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 		}
 
 		logger.info("Data processed successfully for pullDetailOnDateForTeamMemeber()  " + userName, repoName, commitDate);
+		
 		return pullList;
 	}
 }
