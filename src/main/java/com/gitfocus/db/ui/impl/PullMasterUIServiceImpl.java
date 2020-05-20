@@ -48,8 +48,7 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 	PullMasterRepository pullRepository;
 
 	@Override
-	public List<PullRequestCount> getCountOfPR(String teamName, String repoName, String timeperiod, String endDate)
-			throws JsonProcessingException {
+	public List<PullRequestCount> getCountOfPR(String teamName, String repoName, String timeperiod, String endDate) throws JsonProcessingException {
 		// TODO Auto-generated method stub
 		logger.info("getCountofPR " + teamName, repoName, timeperiod, endDate);
 		SimpleDateFormat sd = new SimpleDateFormat("dd-MMM-yyyy");
@@ -64,7 +63,8 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 
 		if (timeperiod.equalsIgnoreCase("oneweek")) {
 			for (Object userId : teamMembers) {
-				memberPullList = pMasterRepository.getPullDetailsForMemberForOneWeek(repoName, userId.toString(), endDate);
+				memberPullList = pMasterRepository.getPullDetailsForMemberForOneWeek(repoName, userId.toString(),
+						endDate);
 				for (Object[] obj : memberPullList) {
 					pCount = ((BigInteger) obj[3]).intValue();
 					// If PRcount is 0 then userId also 0
@@ -78,7 +78,8 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 		}
 		if (timeperiod.equalsIgnoreCase("twoweek")) {
 			for (Object userId : teamMembers) {
-				memberPullList = pMasterRepository.getPullDetailsForMemberForTwoWeeks(repoName, userId.toString(), endDate);
+				memberPullList = pMasterRepository.getPullDetailsForMemberForTwoWeeks(repoName, userId.toString(),
+						endDate);
 				for (Object[] obj : memberPullList) {
 					pCount = ((BigInteger) obj[3]).intValue();
 					// If PRcount is 0 then userId also 0
@@ -104,9 +105,11 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 			pullList.add(model);
 
 			if (pullList.size() == 0) {
-				logger.error("There is no Records for particular request on getCountofPR " + teamName, repoName, timeperiod, endDate);
+				logger.error("There is no Records for particular request on getCountofPR " + teamName, repoName,
+						timeperiod, endDate);
 
-				throw new ResourceNotFoundException("There is no Records for particular request on PullDetailsService",	teamName, repoName);
+				throw new ResourceNotFoundException("There is no Records for particular request on PullDetailsService",
+						teamName, repoName);
 			}
 		}
 
@@ -119,22 +122,17 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 	public List<PullMasterCommitDetailOnDate> pullDetailOnDateForTeamMemeber(String userName, String repoName, String commitDate) throws ParseException {
 		// TODO Auto-generated method stub
 		logger.info("pullDetailOnDateForTeamMemeber " + userName, repoName, commitDate);
-
-		List<Object[]> pullMasterList = new ArrayList<Object[]>();
-		ArrayList<PullMasterCommitDetailOnDate> pullList = new ArrayList<PullMasterCommitDetailOnDate>();
-		PullMasterCommitDetailOnDate model = new PullMasterCommitDetailOnDate();
 		ArrayList<String> pullNo = new ArrayList<String>();
 		ArrayList<Boolean> merged = new ArrayList<Boolean>();
 		ArrayList<Boolean> notMerged = new ArrayList<Boolean>();
 		ArrayList<String> fromBranch = new ArrayList<String>();
 		ArrayList<String> createdTime = new ArrayList<String>();
 		boolean mergedStatus = false;
-		String[] pullNoArr = new String[5];
-		Boolean[] mergedArr = null;
-		Boolean[] notMergedArr = null;
-		String[] fromBranchArr = null;
-		String[] createdTimeArr = null;
 		Date cDate = null;
+		
+		List<Object[]> pullMasterList = new ArrayList<Object[]>();
+		ArrayList<PullMasterCommitDetailOnDate> pullList = new ArrayList<PullMasterCommitDetailOnDate>();
+		PullMasterCommitDetailOnDate model = new PullMasterCommitDetailOnDate();
 
 		// get startDate and endDate
 		Date[] inputDates = GitFocusUtil.getStartAndEndDate(commitDate);
@@ -144,11 +142,9 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 		pullMasterList = pullRepository.getPullDetailOnDateForMemebers(userName, repoId, inputDates[0], inputDates[1]);
 
 		for (Object[] obj : pullMasterList) {
-
 			pullNo.add(String.valueOf((String) obj[0].toString()));
 			mergedStatus = (boolean) obj[1];
-
-			if(mergedStatus == true) {
+			if (mergedStatus == true) {
 				merged.add(mergedStatus);
 			} else {
 				notMerged.add(mergedStatus);
@@ -162,21 +158,11 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 		model.setUser(userName);
 		model.setRepoName(repoName);
 		model.setCommitDate(GitFocusUtil.convertDateToString(inputDates[0]));
-		
-		pullNoArr = pullNo.toArray(new String[pullNo.size()]);
-		model.setPullNo(pullNoArr);
-		
-		mergedArr = merged.toArray(new Boolean[merged.size()]); 
-		model.setMerged(mergedArr);
-		
-		notMergedArr = notMerged.toArray(new Boolean[notMerged.size()]); 
-		model.setNotMerged(notMergedArr);
-		
-		fromBranchArr = fromBranch.toArray(new String[fromBranch.size()]); 
-		model.setBranchName(fromBranchArr);
-		
-		createdTimeArr = createdTime.toArray(new String[createdTime.size()]);
-		model.setCreatedTime(createdTimeArr);
+		model.setPullNo(pullNo);
+		model.setMerged(merged);
+		model.setNotMerged(notMerged);
+		model.setBranchName(fromBranch);
+		model.setCreatedTime(createdTime);
 
 		pullList.add(model);
 
@@ -186,7 +172,6 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 		}
 
 		logger.info("Data processed successfully for pullDetailOnDateForTeamMemeber()  " + userName, repoName, commitDate);
-		
 		return pullList;
 	}
 }
