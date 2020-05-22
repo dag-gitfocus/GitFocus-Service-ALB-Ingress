@@ -19,7 +19,7 @@ import com.gitfocus.git.db.model.Teams;
 @RestController
 public class ListTeamsUIController {
 
-	private static Logger logger = LogManager.getLogger(ListTeamsUIController.class);
+	private static final Logger logger = LogManager.getLogger(ListTeamsUIController.class.getSimpleName());
 
 	public ListTeamsUIController() {
 		super();

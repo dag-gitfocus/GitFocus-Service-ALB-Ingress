@@ -30,7 +30,7 @@ import com.gitfocus.util.GitFocusUtil;
 @Service
 public class BranchDetailGitServiceImpl implements IBranchDetailGitService {
 
-	private static Logger logger = LogManager.getLogger(BranchDetailGitServiceImpl.class);
+	private static final Logger logger = LogManager.getLogger(BranchDetailGitServiceImpl.class.getSimpleName());
 
 	public BranchDetailGitServiceImpl() {
 		super();

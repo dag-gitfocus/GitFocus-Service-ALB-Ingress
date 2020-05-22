@@ -33,7 +33,7 @@ import com.gitfocus.util.GitFocusUtil;
 @Service
 public class PullMasterGitServiceImpl implements IPullMasterGitService {
 
-	private static Logger logger = LogManager.getLogger(PullMasterGitServiceImpl.class);
+	private static final Logger logger = LogManager.getLogger(PullMasterGitServiceImpl.class.getSimpleName());
 
 	public PullMasterGitServiceImpl() {
 		super();

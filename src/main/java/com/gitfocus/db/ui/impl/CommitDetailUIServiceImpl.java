@@ -30,7 +30,7 @@ import com.gitfocus.util.GitFocusUtil;
 @Service
 public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 
-	private static Logger logger = LogManager.getLogger(CommitDetailUIServiceImpl.class);
+	private static final Logger logger = LogManager.getLogger(CommitDetailUIServiceImpl.class.getSimpleName());
 
 	public CommitDetailUIServiceImpl() {
 		super();

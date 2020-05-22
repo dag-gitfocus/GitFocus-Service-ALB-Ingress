@@ -31,7 +31,7 @@ import com.gitfocus.util.GitFocusUtil;
 @Service
 public class PullMasterUIServiceImpl implements IPullMasterUIService {
 
-	private static Logger logger = LogManager.getLogger(PullMasterUIServiceImpl.class);
+	private static final Logger logger = LogManager.getLogger(PullMasterUIServiceImpl.class.getSimpleName());
 
 	public PullMasterUIServiceImpl() {
 		super();
@@ -60,7 +60,7 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 
 		// get team_memebers based on team_name
 		teamMembers = teamMemRepos.getTeamMembersByTeamName(teamName);
-
+		// one week time period data
 		if (timeperiod.equalsIgnoreCase("oneweek")) {
 			for (Object userId : teamMembers) {
 				memberPullList = pMasterRepository.getPullDetailsForMemberForOneWeek(repoName, userId.toString(),
@@ -76,6 +76,7 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 				memberPullListResults.addAll(memberPullList);
 			}
 		}
+		// two week time period data
 		if (timeperiod.equalsIgnoreCase("twoweek")) {
 			for (Object userId : teamMembers) {
 				memberPullList = pMasterRepository.getPullDetailsForMemberForTwoWeeks(repoName, userId.toString(),

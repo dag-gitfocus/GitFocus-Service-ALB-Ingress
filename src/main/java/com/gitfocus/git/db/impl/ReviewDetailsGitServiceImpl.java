@@ -33,7 +33,7 @@ import com.gitfocus.util.GitFocusUtil;
 @Service
 public class ReviewDetailsGitServiceImpl implements IReviewDetailsGitService {
 
-	private static Logger logger = LogManager.getLogger(ReviewDetailsGitServiceImpl.class);
+	private static final Logger logger = LogManager.getLogger(ReviewDetailsGitServiceImpl.class.getSimpleName());
 
 	public ReviewDetailsGitServiceImpl() {
 		super();

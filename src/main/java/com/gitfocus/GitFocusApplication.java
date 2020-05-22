@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class GitFocusApplication {
 
-	private static Logger logger = LogManager.getLogger(GitFocusApplication.class);
+	private static final Logger logger = LogManager.getLogger(GitFocusApplication.class.getSimpleName());
 
 	public GitFocusApplication() {
 		super();

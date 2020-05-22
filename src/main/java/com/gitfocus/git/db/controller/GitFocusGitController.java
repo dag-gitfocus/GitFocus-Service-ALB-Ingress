@@ -21,7 +21,7 @@ import com.gitfocus.git.db.service.IReviewDetailsGitService;
 @RestController
 public class GitFocusGitController {
 
-	private static Logger logger = LogManager.getLogger(GitFocusGitController.class);
+	private static final Logger logger = LogManager.getLogger(GitFocusGitController.class.getSimpleName());
 
 	public GitFocusGitController() {
 		super();

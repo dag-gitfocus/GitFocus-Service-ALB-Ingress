@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SimpleCORSFilter implements Filter {
 
-	private static Logger logger = LogManager.getLogger(SimpleCORSFilter.class);
+	private static final Logger logger = LogManager.getLogger(SimpleCORSFilter.class.getSimpleName());
 
 	public SimpleCORSFilter() {
 		logger.info("SimpleCORSFilter init");

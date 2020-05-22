@@ -31,7 +31,7 @@ import com.gitfocus.repository.UnitsRepository;
 @Service
 public class GitFocusUtil {
 
-	private static Logger logger = LogManager.getLogger(GitFocusUtil.class);
+	private static final Logger logger = LogManager.getLogger(GitFocusUtil.class.getSimpleName());
 
 	public GitFocusUtil() {
 		super();

@@ -34,7 +34,7 @@ import com.gitfocus.util.GitFocusUtil;
 @Service
 public class CommitDetailGitServiceImpl implements ICommitDetailGitService {
 
-	private static Logger logger = LogManager.getLogger(CommitDetailGitServiceImpl.class);
+	private static final Logger logger = LogManager.getLogger(CommitDetailGitServiceImpl.class.getSimpleName());
 
 	public CommitDetailGitServiceImpl() {
 		super();
@@ -58,7 +58,7 @@ public class CommitDetailGitServiceImpl implements ICommitDetailGitService {
 	@Autowired
 	TeamMembersRepository teamMemRepos;
 
-	List<Units> unitsRecords = null;
+	List<Units> unitRecords = null;
 	List<Units> units = null;
 	String jsonResult = null;
 	String unitOwner = null;
@@ -88,7 +88,7 @@ public class CommitDetailGitServiceImpl implements ICommitDetailGitService {
 	CommitDetailsCompositeId commitCompositeId = new CommitDetailsCompositeId();
 
 	/**
-	 * 
+	 * Method to get Json from Git and store values in DataBase
 	 * @return boolean
 	 * @throws ParseException
 	 */
@@ -107,33 +107,34 @@ public class CommitDetailGitServiceImpl implements ICommitDetailGitService {
 
 			reposName.forEach(repoName -> {
 				repoId = uReposRepository.findRepoId(repoName);
-				// get branches for repository(reposName)
+				
+				// get branches for repository
 				branches = bDetailsRepository.getBranchList(repoId);
 
 				branches.forEach(branchName -> {
 					for (int page = 0; page <= gitConstant.MAX_PAGE; page++) {
 						commitDetailURI = gitConstant.BASE_URI + unitOwner + "/" + repoName + "/commits?" + "sha="
 								+ branchName + "&page=" + page + "&" + "per_page=" + gitConstant.TOTAL_RECORDS_PER_PAGE + "&";
+						
 						commitsResult = gitUtil.getGitAPIJsonResponse(commitDetailURI);
 						jsonResponse = new JSONArray(commitsResult);
 
 						for (int i = 0; i < jsonResponse.length(); i++) {
 							commitDetailObj = jsonResponse.getJSONObject(i);
-
+							
 							commitObj1 = commitDetailObj.getJSONObject("commit");
 							commitObj2 = commitObj1.getJSONObject("author");
-
+							
 							shaId = commitDetailObj.getString("sha");
 							userId = commitObj2.getString("name");
 							commitDate = commitObj2.getString("date");
 							cDate = GitFocusUtil.stringToDate(commitDate);
 							messgae = commitObj1.getString("message");
 
-							// commit_detail based on sha_id
+							// commit_detail based on sha_id -- START
 							if (shaId != null) {
 
-								commitDetailShaURI = gitConstant.BASE_URI + unitOwner + "/" + repoName + "/commits/"
-										+ shaId + "?";
+								commitDetailShaURI = gitConstant.BASE_URI + unitOwner + "/" + repoName + "/commits/" + shaId + "?";
 
 								commitDetailShaResult = gitUtil.getGitAPIJsonResponse(commitDetailShaURI);
 								commitDetailShaObj = new JSONObject(commitDetailShaResult);
@@ -146,29 +147,14 @@ public class CommitDetailGitServiceImpl implements ICommitDetailGitService {
 
 								for (int j = 0; j < commitShaArr.length(); j++) {
 									jsonShaObj = commitShaArr.getJSONObject(j);
-									if (fileName == null) {
-										fileName = jsonShaObj.getString("filename").concat(",");
-									} else {
-										fileName = fileName + jsonShaObj.getString("filename").concat(",");
-									}
-									if (fileStatus == null) {
-										fileStatus = jsonShaObj.getString("status").concat(",");
-									} else {
-										fileStatus = fileStatus + jsonShaObj.getString("status").concat(",");
-									}
-									if (linesAdded == null) {
-										linesAdded = String.valueOf(jsonShaObj.getInt("additions")).concat(",");
-									} else {
-										linesAdded = linesAdded
-												+ String.valueOf(jsonShaObj.getInt("additions")).concat(",");
-									}
-									if (linesRemoved == null) {
-										linesRemoved = String.valueOf(jsonShaObj.getInt("deletions")).concat(",");
-									} else {
-										linesRemoved = linesRemoved
-												+ String.valueOf(jsonShaObj.getInt("deletions")).concat(",");
-									}
+									fileName = fileName + jsonShaObj.getString("filename").concat(",");
+									fileStatus = fileStatus + jsonShaObj.getString("status").concat(",");
+									linesAdded = linesAdded	+ String.valueOf(jsonShaObj.getInt("additions")).concat(",");
+									linesRemoved = linesRemoved	+ String.valueOf(jsonShaObj.getInt("deletions")).concat(",");
 
+									// commit_detail based on sha_id -- END
+									
+									// store values in commit_details table in database
 									commitCompositeId.setUnitId(unitId);
 									commitCompositeId.setShaId(shaId);
 									commitCompositeId.setRepoId(repoId);
@@ -179,10 +165,10 @@ public class CommitDetailGitServiceImpl implements ICommitDetailGitService {
 									cDetails.setCommitDate(cDate);
 									cDetails.setUserId(userId);
 									cDetails.setMessage(messgae);
-									cDetails.setFileName(fileName);
-									cDetails.setFileStatus(fileStatus);
-									cDetails.setLinesAdded(linesAdded);
-									cDetails.setLinesRemoved(linesRemoved);
+									cDetails.setFileName(fileName.replace("null", ""));
+									cDetails.setFileStatus(fileStatus.replace("null", ""));
+									cDetails.setLinesAdded(linesAdded.replace("null", ""));
+									cDetails.setLinesRemoved(linesRemoved.replace("null", ""));
 
 									cDetailsRepository.save(cDetails);
 

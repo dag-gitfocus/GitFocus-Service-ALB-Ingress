@@ -22,7 +22,7 @@ import com.gitfocus.repository.TeamsRepository;
 @Service
 public class ListTeamsUIServiceImpl implements IListUITeamsService {
 
-	private static Logger logger = LogManager.getLogger(ListTeamsUIServiceImpl.class);
+	private static final Logger logger = LogManager.getLogger(ListTeamsUIServiceImpl.class.getSimpleName());
 
 	public ListTeamsUIServiceImpl() {
 		super();

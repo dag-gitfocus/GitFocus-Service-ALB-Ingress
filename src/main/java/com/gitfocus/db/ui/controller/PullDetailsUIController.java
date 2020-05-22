@@ -23,7 +23,7 @@ import com.gitfocus.db.ui.service.IPullMasterUIService;
 @RestController
 public class PullDetailsUIController {
 
-	private static Logger logger = LogManager.getLogger(PullDetailsUIController.class);
+	private static final Logger logger = LogManager.getLogger(PullDetailsUIController.class.getSimpleName());
 
 	public PullDetailsUIController() {
 		super();
