@@ -117,7 +117,8 @@ public class PullMasterGitServiceImpl implements IPullMasterGitService {
 
 			reposName.forEach(repoName -> {
 				repoId = uReposRepository.findRepoId(repoName);
-				// get branches for repository(reposName)
+				
+				// get branches for repository
 				branches = branchRepo.getBranchList(repoId);
 
 				branches.forEach(branchName -> {
@@ -154,7 +155,7 @@ public class PullMasterGitServiceImpl implements IPullMasterGitService {
 							updTime = GitFocusUtil.stringToDate(updatedTime);
 							userId = pullObjUserId.getString("login");
 
-							// To get Pull review based on pull number - START
+							// To get Pull review based on pull number -- START
 
 							pullNoUri = gitFocusConstant.BASE_URI + unitOwner + "/" + repoName + "/pulls/" + pullNo
 									+ "?" + "state=all" + "&" + "page=" + page + "&per_page="
@@ -193,7 +194,7 @@ public class PullMasterGitServiceImpl implements IPullMasterGitService {
 								pMaster.setMergedAt(null);
 							}
 
-							// To get Pull review based on pull number - END
+							// To get Pull review based on pull number -- END
 
 							pMaster.setPullId(pullId);
 							pMaster.setFromBranch(fromBranch);
