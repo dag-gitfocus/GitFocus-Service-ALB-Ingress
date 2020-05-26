@@ -9,9 +9,13 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -154,24 +158,37 @@ public class GitFocusUtil {
 	 * @param reviewedDate
 	 * @return noOfDaysBetween
 	 */
-	public static long calculteDaysBetweenTwoDatesOrHours(String createdDate, String reviewedDate) {
+	public static List<Entry<Long, String>> calculteDaysBetweenTwoDatesOrHours(String createdDate, String reviewedDate) {
 		logger.info("calculteDaysBetweenTwoDates - Date is  " + createdDate, reviewedDate);
 
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.US);
 		long noOfDaysBetweenDatesOrHours = 0;
+		long hoursBetweenDates = 0;
+		long miniutesBetweenDates = 0;
 		boolean sameDay = false;
+		
+		Map<Long, String> noOfDaysBetweenDatesOrHoursMap = new HashMap<Long, String>();
 		LocalDateTime d1 = LocalDateTime.parse(createdDate.substring(0, 19), dtf);
 		LocalDateTime d2 = LocalDateTime.parse(reviewedDate.substring(0, 19), dtf);
-
 		sameDay = createdDate.substring(0, 10).equals(reviewedDate.substring(0, 10));
 
 		// if createdDate and reviewedDate dates are same day then calculate hours
 		if (sameDay == true) {
-			noOfDaysBetweenDatesOrHours = ChronoUnit.HOURS.between(d1, d2);
+			hoursBetweenDates = ChronoUnit.HOURS.between(d1, d2);
+			// get hours between createdDate and reviewedDate
+			if(hoursBetweenDates > 1) {
+				noOfDaysBetweenDatesOrHoursMap.put(hoursBetweenDates, "Hours");
+			// get minutes between createdDate and reviewedDate	
+			} else if (hoursBetweenDates == 0 && hoursBetweenDates < 1 ) {
+				miniutesBetweenDates = ChronoUnit.MINUTES.between(d1, d2);
+				noOfDaysBetweenDatesOrHoursMap.put(miniutesBetweenDates, "Miniutes");
+			}
 		// if createdDate and reviewedDate dates aren't same day then calculate days
 		} else {
 			noOfDaysBetweenDatesOrHours = ChronoUnit.DAYS.between(d1, d2);
+			noOfDaysBetweenDatesOrHoursMap.put(noOfDaysBetweenDatesOrHours, "Days");
 		}
-		return noOfDaysBetweenDatesOrHours;
+
+		return noOfDaysBetweenDatesOrHoursMap.entrySet().stream().collect(Collectors.toList());
 	}
 }

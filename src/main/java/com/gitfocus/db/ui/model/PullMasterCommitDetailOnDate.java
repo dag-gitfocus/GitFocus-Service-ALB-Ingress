@@ -3,6 +3,7 @@ package com.gitfocus.db.ui.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 /**
  * 
@@ -31,7 +32,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	private List<String> branchName = new ArrayList<String>();
 	private List<String> createdTime = new ArrayList<String>();
 	private List<String> commitCount = new ArrayList<String>();
-	private List<Long> noOfDaysBwfirstCommit = new ArrayList<Long>();
+	private List<Entry<Long, String>> noOfDaysBwfirstCommit = new ArrayList<Entry<Long, String>>();
 
 	/**
 	 * 
@@ -177,17 +178,16 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 
 	/**
 	 * 
-	 * @return
+	 * @return noOfDaysBwfirstCommit
 	 */
-	public List<Long> getNoOfDaysBwfirstCommit() {
+	public List<Entry<Long, String>> getNoOfDaysBwfirstCommit() {
 		return noOfDaysBwfirstCommit;
 	}
-
 	/**
 	 * 
 	 * @param noOfDaysBwfirstCommit
 	 */
-	public void setNoOfDaysBwfirstCommit(List<Long> noOfDaysBwfirstCommit) {
+	public void setNoOfDaysBwfirstCommit(List<Entry<Long, String>> noOfDaysBwfirstCommit) {
 		this.noOfDaysBwfirstCommit = noOfDaysBwfirstCommit;
 	}
 
@@ -207,6 +207,8 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {

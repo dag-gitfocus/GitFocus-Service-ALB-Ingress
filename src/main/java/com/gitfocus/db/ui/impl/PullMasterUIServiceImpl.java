@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -129,7 +131,7 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 		ArrayList<Boolean> notMerged = new ArrayList<Boolean>();
 		ArrayList<String> fromBranch = new ArrayList<String>();
 		ArrayList<String> createdTime = new ArrayList<String>();
-		ArrayList<Long> firstCommit = new ArrayList<Long>();
+		ArrayList<Map.Entry<Long, String>> firstCommit = new ArrayList<Map.Entry<Long, String>>();
 		ArrayList<String> commitCount = new ArrayList<String>();
 		boolean mergedStatus = false;
 		Date cDate = null;
@@ -154,8 +156,8 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 			String reviewedDate = (String)Array.get(commitDates, 1);
 			// calculate noOfDaysBetween if createdDate, reviewedDate aren't same
 			// calculate hours if createdDate, reviewedDate are same
-			long daysDiff = GitFocusUtil.calculteDaysBetweenTwoDatesOrHours(createdDate, reviewedDate);
-			firstCommit.add(daysDiff);
+			List<Entry<Long, String>> daysDiff = GitFocusUtil.calculteDaysBetweenTwoDatesOrHours(createdDate, reviewedDate);
+			firstCommit.addAll(daysDiff);
 		}
 		for (Object[] obj : pullMasterList) {
 			pullNo.add(String.valueOf((String) obj[0].toString()));
