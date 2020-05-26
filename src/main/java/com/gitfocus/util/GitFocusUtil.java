@@ -4,12 +4,13 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import org.apache.logging.log4j.LogManager;
@@ -147,31 +148,30 @@ public class GitFocusUtil {
 	}
 
 	/**
-	 * Method to calculteDaysBetweenTwoDates
+	 * Method to calculteDaysBetweenTwoDates or Hours between Two Dates
 	 * 
 	 * @param createdDate
 	 * @param reviewedDate
 	 * @return noOfDaysBetween
 	 */
-	public static long calculteDaysBetweenTwoDates(String createdDate, String reviewedDate) {
+	public static long calculteDaysBetweenTwoDatesOrHours(String createdDate, String reviewedDate) {
 		logger.info("calculteDaysBetweenTwoDates - Date is  " + createdDate, reviewedDate);
-		
-		long noOfDaysBetween = 0;
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		String cDate = createdDate.substring(0, 10);
-		String rDate = reviewedDate.substring(0, 10);
-		LocalDate d1 = null;
-		LocalDate d2 = null;
-		
-		try {
-			d1 = df.parse(cDate).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			d2 = df.parse(rDate).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			noOfDaysBetween = ChronoUnit.DAYS.between(d1, d2);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.US);
+		long noOfDaysBetweenDatesOrHours = 0;
+		boolean sameDay = false;
+		LocalDateTime d1 = LocalDateTime.parse(createdDate.substring(0, 19), dtf);
+		LocalDateTime d2 = LocalDateTime.parse(reviewedDate.substring(0, 19), dtf);
+
+		sameDay = createdDate.substring(0, 10).equals(reviewedDate.substring(0, 10));
+
+		// if createdDate and reviewedDate dates are same day then calculate hours
+		if (sameDay == true) {
+			noOfDaysBetweenDatesOrHours = ChronoUnit.HOURS.between(d1, d2);
+			// if createdDate and reviewedDate dates aren't same day then calculate days
+		} else {
+			noOfDaysBetweenDatesOrHours = ChronoUnit.DAYS.between(d1, d2);
 		}
-		
-		return noOfDaysBetween;
+		return noOfDaysBetweenDatesOrHours;
 	}
 }
