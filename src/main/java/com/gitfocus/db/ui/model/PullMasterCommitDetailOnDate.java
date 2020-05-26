@@ -30,6 +30,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	private List<Boolean> notMerged = new ArrayList<Boolean>();
 	private List<String> branchName = new ArrayList<String>();
 	private List<String> createdTime = new ArrayList<String>();
+	private List<String> commitCount = new ArrayList<String>();
 	private List<Long> noOfDaysBwfirstCommit = new ArrayList<Long>();
 
 	/**
@@ -161,6 +162,20 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	}
 
 	/**
+	 * @return
+	 */
+	public List<String> getCommitCount() {
+		return commitCount;
+	}
+
+	/**
+	 * @param commitCount
+	 */
+	public void setCommitCount(List<String> commitCount) {
+		this.commitCount = commitCount;
+	}
+
+	/**
 	 * 
 	 * @return
 	 */
@@ -181,6 +196,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((branchName == null) ? 0 : branchName.hashCode());
+		result = prime * result + ((commitCount == null) ? 0 : commitCount.hashCode());
 		result = prime * result + ((commitDate == null) ? 0 : commitDate.hashCode());
 		result = prime * result + ((createdTime == null) ? 0 : createdTime.hashCode());
 		result = prime * result + ((merged == null) ? 0 : merged.hashCode());
@@ -205,6 +221,11 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 			if (other.branchName != null)
 				return false;
 		} else if (!branchName.equals(other.branchName))
+			return false;
+		if (commitCount == null) {
+			if (other.commitCount != null)
+				return false;
+		} else if (!commitCount.equals(other.commitCount))
 			return false;
 		if (commitDate == null) {
 			if (other.commitDate != null)
@@ -253,8 +274,8 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	public String toString() {
 		return "PullMasterCommitDetailOnDate [user=" + user + ", repoName=" + repoName + ", commitDate=" + commitDate
 				+ ", pullNo=" + pullNo + ", merged=" + merged + ", notMerged=" + notMerged + ", branchName="
-				+ branchName + ", createdTime=" + createdTime + ", noOfDaysBwfirstCommit=" + noOfDaysBwfirstCommit
-				+ "]";
+				+ branchName + ", createdTime=" + createdTime + ", commitCount=" + commitCount
+				+ ", noOfDaysBwfirstCommit=" + noOfDaysBwfirstCommit + "]";
 	}
 
 }

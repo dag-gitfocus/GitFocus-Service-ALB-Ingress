@@ -130,6 +130,7 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 		ArrayList<String> fromBranch = new ArrayList<String>();
 		ArrayList<String> createdTime = new ArrayList<String>();
 		ArrayList<Long> firstCommit = new ArrayList<Long>();
+		ArrayList<String> commitCount = new ArrayList<String>();
 		boolean mergedStatus = false;
 		Date cDate = null;
 
@@ -166,6 +167,7 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 
 			fromBranch.add((String) obj[2]);
 			cDate = (Date) obj[3];
+			commitCount.add(String.valueOf((String) obj[4].toString()));
 			createdTime.add(GitFocusUtil.convertDateToString(cDate));
 		}
 
@@ -178,6 +180,7 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 		model.setBranchName(fromBranch);
 		model.setCreatedTime(createdTime);
 		model.setNoOfDaysBwfirstCommit(firstCommit);
+		model.setCommitCount(commitCount);
 
 		pullList.add(model);
 

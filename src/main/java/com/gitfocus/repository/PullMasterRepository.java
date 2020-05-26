@@ -69,7 +69,7 @@ public interface PullMasterRepository extends JpaRepository<PullMaster, Object> 
 	 * @param endDate
 	 * @return getPullDetailOnDateForMemebers Results
 	 */
-	@Query("select distinct pm.pCompositeId.pullNumber,pm.merged,pm.fromBranch,pm.createdTime from PullMaster pm \r\n"
+	@Query("select distinct pm.pCompositeId.pullNumber,pm.merged,pm.fromBranch,pm.createdTime,pm.commitCount from PullMaster pm \r\n"
 			+ "where pm.userId=:userId \r\n" + "and pm.pCompositeId.repoId=:repoId \r\n"
 			+ "and pm.createdTime >=cast(:startDate as date ) \r\n"
 			+ "and pm.createdTime <= cast(:endDate as date )  \r\n"
