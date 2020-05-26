@@ -146,14 +146,14 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 		// get pullMasterDetails based on userName, repoId, startDate and endDate
 		pullMasterList = pullRepository.getPullDetailOnDateForMemebers(userName, repoId, inputDates[0], inputDates[1]);
 
-		// get noOfDaysBetween first commit 
+		// get noOfDaysBetween or hours for first commit 
 		firstCommitList = pullRepository.timeToFirstCommit();
 		for(String commitList : firstCommitList) {
 			String[] commitDates = commitList.split(",");
 			String createdDate = (String)Array.get(commitDates, 0);
 			String reviewedDate = (String)Array.get(commitDates, 1);
-			// calculate noOfDaysBetween if two dates aren't same
-			// calculate hours if two dates are same
+			// calculate noOfDaysBetween if createdDate, reviewedDate aren't same
+			// calculate hours if createdDate, reviewedDate are same
 			long daysDiff = GitFocusUtil.calculteDaysBetweenTwoDatesOrHours(createdDate, reviewedDate);
 			firstCommit.add(daysDiff);
 		}

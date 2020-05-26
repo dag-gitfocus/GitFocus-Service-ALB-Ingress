@@ -168,7 +168,7 @@ public class GitFocusUtil {
 		// if createdDate and reviewedDate dates are same day then calculate hours
 		if (sameDay == true) {
 			noOfDaysBetweenDatesOrHours = ChronoUnit.HOURS.between(d1, d2);
-			// if createdDate and reviewedDate dates aren't same day then calculate days
+		// if createdDate and reviewedDate dates aren't same day then calculate days
 		} else {
 			noOfDaysBetweenDatesOrHours = ChronoUnit.DAYS.between(d1, d2);
 		}
