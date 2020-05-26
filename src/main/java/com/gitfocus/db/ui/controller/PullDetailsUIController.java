@@ -17,7 +17,7 @@ import com.gitfocus.db.ui.service.IPullMasterUIService;
 
 /**
  * @author Tech Mahindra
- * Controller class for pull_commit service from database to GUI
+ * Controller class for pull_details service from database to GUI
  */
 
 @RestController

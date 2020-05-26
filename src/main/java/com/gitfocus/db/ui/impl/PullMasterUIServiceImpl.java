@@ -1,5 +1,6 @@
 package com.gitfocus.db.ui.impl;
 
+import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -128,10 +129,12 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 		ArrayList<Boolean> notMerged = new ArrayList<Boolean>();
 		ArrayList<String> fromBranch = new ArrayList<String>();
 		ArrayList<String> createdTime = new ArrayList<String>();
+		ArrayList<Long> firstCommit = new ArrayList<Long>();
 		boolean mergedStatus = false;
 		Date cDate = null;
-		
+
 		List<Object[]> pullMasterList = new ArrayList<Object[]>();
+		String[] firstCommitList = null;
 		ArrayList<PullMasterCommitDetailOnDate> pullList = new ArrayList<PullMasterCommitDetailOnDate>();
 		PullMasterCommitDetailOnDate model = new PullMasterCommitDetailOnDate();
 
@@ -142,6 +145,16 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 		// get pullMasterDetails based on userName, repoId, startDate and endDate
 		pullMasterList = pullRepository.getPullDetailOnDateForMemebers(userName, repoId, inputDates[0], inputDates[1]);
 
+		// get noOfDaysBetween first commit 
+		firstCommitList = pullRepository.timeToFirstCommit();
+		for(String commitList : firstCommitList) {
+			String[] commitDates = commitList.split(",");
+			String createdDate = (String)Array.get(commitDates, 0);
+			String reviewedDate = (String)Array.get(commitDates, 1);
+			// calculate noOfDaysBetween 
+			long daysDiff = GitFocusUtil.calculteDaysBetweenTwoDates(createdDate, reviewedDate);
+			firstCommit.add(daysDiff);
+		}
 		for (Object[] obj : pullMasterList) {
 			pullNo.add(String.valueOf((String) obj[0].toString()));
 			mergedStatus = (boolean) obj[1];
@@ -164,6 +177,7 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 		model.setNotMerged(notMerged);
 		model.setBranchName(fromBranch);
 		model.setCreatedTime(createdTime);
+		model.setNoOfDaysBwfirstCommit(firstCommit);
 
 		pullList.add(model);
 
@@ -175,4 +189,5 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 		logger.info("Data processed successfully for pullDetailOnDateForTeamMemeber()  " + userName, repoName, commitDate);
 		return pullList;
 	}
+
 }

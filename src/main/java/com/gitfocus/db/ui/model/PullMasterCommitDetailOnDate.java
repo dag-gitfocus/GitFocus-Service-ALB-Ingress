@@ -6,8 +6,8 @@ import java.util.List;
 
 /**
  * 
- * @author Tech Mahindra 
- * A class for showing pull master commit details and count based on date
+ * @author Tech Mahindra A class for showing pull master commit details and
+ *         count based on date
  * 
  */
 public class PullMasterCommitDetailOnDate implements Serializable {
@@ -30,6 +30,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	private List<Boolean> notMerged = new ArrayList<Boolean>();
 	private List<String> branchName = new ArrayList<String>();
 	private List<String> createdTime = new ArrayList<String>();
+	private List<Long> noOfDaysBwfirstCommit = new ArrayList<Long>();
 
 	/**
 	 * 
@@ -38,6 +39,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	public String getUser() {
 		return user;
 	}
+
 	/**
 	 * 
 	 * @param user
@@ -45,6 +47,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	public void setUser(String user) {
 		this.user = user;
 	}
+
 	/**
 	 * 
 	 * @return repoName
@@ -52,6 +55,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	public String getRepoName() {
 		return repoName;
 	}
+
 	/**
 	 * 
 	 * @param repoName
@@ -59,6 +63,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	public void setRepoName(String repoName) {
 		this.repoName = repoName;
 	}
+
 	/**
 	 * 
 	 * @return commitDate
@@ -66,6 +71,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	public String getCommitDate() {
 		return commitDate;
 	}
+
 	/**
 	 * 
 	 * @param commitDate
@@ -73,6 +79,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	public void setCommitDate(String commitDate) {
 		this.commitDate = commitDate;
 	}
+
 	/**
 	 * 
 	 * @return pullNo
@@ -80,6 +87,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	public List<String> getPullNo() {
 		return pullNo;
 	}
+
 	/**
 	 * 
 	 * @param pullNo
@@ -87,6 +95,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	public void setPullNo(List<String> pullNo) {
 		this.pullNo = pullNo;
 	}
+
 	/**
 	 * 
 	 * @return merged
@@ -94,6 +103,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	public List<Boolean> getMerged() {
 		return merged;
 	}
+
 	/**
 	 * 
 	 * @param merged
@@ -101,6 +111,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	public void setMerged(List<Boolean> merged) {
 		this.merged = merged;
 	}
+
 	/**
 	 * 
 	 * @return notMerged
@@ -108,6 +119,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	public List<Boolean> getNotMerged() {
 		return notMerged;
 	}
+
 	/**
 	 * 
 	 * @param notMerged
@@ -115,6 +127,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	public void setNotMerged(List<Boolean> notMerged) {
 		this.notMerged = notMerged;
 	}
+
 	/**
 	 * 
 	 * @return branchName
@@ -122,6 +135,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	public List<String> getBranchName() {
 		return branchName;
 	}
+
 	/**
 	 * 
 	 * @param branchName
@@ -129,6 +143,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	public void setBranchName(List<String> branchName) {
 		this.branchName = branchName;
 	}
+
 	/**
 	 * 
 	 * @return createdTime
@@ -136,12 +151,29 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	public List<String> getCreatedTime() {
 		return createdTime;
 	}
+
 	/**
 	 * 
 	 * @param createdTime
 	 */
 	public void setCreatedTime(List<String> createdTime) {
 		this.createdTime = createdTime;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public List<Long> getNoOfDaysBwfirstCommit() {
+		return noOfDaysBwfirstCommit;
+	}
+
+	/**
+	 * 
+	 * @param noOfDaysBwfirstCommit
+	 */
+	public void setNoOfDaysBwfirstCommit(List<Long> noOfDaysBwfirstCommit) {
+		this.noOfDaysBwfirstCommit = noOfDaysBwfirstCommit;
 	}
 
 	@Override
@@ -152,6 +184,7 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 		result = prime * result + ((commitDate == null) ? 0 : commitDate.hashCode());
 		result = prime * result + ((createdTime == null) ? 0 : createdTime.hashCode());
 		result = prime * result + ((merged == null) ? 0 : merged.hashCode());
+		result = prime * result + ((noOfDaysBwfirstCommit == null) ? 0 : noOfDaysBwfirstCommit.hashCode());
 		result = prime * result + ((notMerged == null) ? 0 : notMerged.hashCode());
 		result = prime * result + ((pullNo == null) ? 0 : pullNo.hashCode());
 		result = prime * result + ((repoName == null) ? 0 : repoName.hashCode());
@@ -188,6 +221,11 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 				return false;
 		} else if (!merged.equals(other.merged))
 			return false;
+		if (noOfDaysBwfirstCommit == null) {
+			if (other.noOfDaysBwfirstCommit != null)
+				return false;
+		} else if (!noOfDaysBwfirstCommit.equals(other.noOfDaysBwfirstCommit))
+			return false;
 		if (notMerged == null) {
 			if (other.notMerged != null)
 				return false;
@@ -215,7 +253,8 @@ public class PullMasterCommitDetailOnDate implements Serializable {
 	public String toString() {
 		return "PullMasterCommitDetailOnDate [user=" + user + ", repoName=" + repoName + ", commitDate=" + commitDate
 				+ ", pullNo=" + pullNo + ", merged=" + merged + ", notMerged=" + notMerged + ", branchName="
-				+ branchName + ", createdTime=" + createdTime + "]";
+				+ branchName + ", createdTime=" + createdTime + ", noOfDaysBwfirstCommit=" + noOfDaysBwfirstCommit
+				+ "]";
 	}
 
 }

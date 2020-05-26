@@ -76,4 +76,12 @@ public interface PullMasterRepository extends JpaRepository<PullMaster, Object> 
 			+ "and pm.createdTime is not NULL  order by pm.createdTime")
 	List<Object[]> getPullDetailOnDateForMemebers(String userId, int repoId, Date startDate, Date endDate);
 
+	/**
+	 * 
+	 * @return timeToFirstCommit
+	 */
+	@Query("select pm.createdTime, rd.reviewedAt from PullMaster pm inner join ReviewDetails rd on "
+			+ "rd.pullNumber=pm.pCompositeId.pullNumber")
+	String[] timeToFirstCommit();
+
 }

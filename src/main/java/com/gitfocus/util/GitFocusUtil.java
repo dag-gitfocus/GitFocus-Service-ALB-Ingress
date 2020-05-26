@@ -1,10 +1,12 @@
 package com.gitfocus.util;
 
-
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -25,8 +27,10 @@ import com.gitfocus.git.db.model.Units;
 import com.gitfocus.repository.UnitsRepository;
 
 /**
+ * 
  * @author Tech Mahindra 
  * Common utility class for GitFocus-Service Application
+ * 
  */
 @Service
 public class GitFocusUtil {
@@ -125,19 +129,49 @@ public class GitFocusUtil {
 
 	/**
 	 * Method to convert Date to String
+	 * 
 	 * @param indate
 	 * @return dateString
 	 */
 	public static String convertDateToString(Date date) {
 		logger.info("convertStringToDate - Date is  " + date);
 		String dateString = null;
-		SimpleDateFormat sdfr = new SimpleDateFormat("dd-MMM-yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
 		try {
-			dateString = sdfr.format(date);
+			dateString = sdf.format(date);
 		} catch (Exception ex) {
 			// TODO Auto-generated catch block
 			ex.printStackTrace();
 		}
 		return dateString;
+	}
+
+	/**
+	 * Method to calculteDaysBetweenTwoDates
+	 * 
+	 * @param createdDate
+	 * @param reviewedDate
+	 * @return noOfDaysBetween
+	 */
+	public static long calculteDaysBetweenTwoDates(String createdDate, String reviewedDate) {
+		logger.info("calculteDaysBetweenTwoDates - Date is  " + createdDate, reviewedDate);
+		
+		long noOfDaysBetween = 0;
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String cDate = createdDate.substring(0, 10);
+		String rDate = reviewedDate.substring(0, 10);
+		LocalDate d1 = null;
+		LocalDate d2 = null;
+		
+		try {
+			d1 = df.parse(cDate).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			d2 = df.parse(rDate).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			noOfDaysBetween = ChronoUnit.DAYS.between(d1, d2);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return noOfDaysBetween;
 	}
 }
