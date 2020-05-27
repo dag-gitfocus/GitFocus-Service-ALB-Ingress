@@ -29,8 +29,8 @@ public class PullMaster implements Serializable {
 
     @JsonIgnore
     @JoinColumns({
-            @JoinColumn(name = "unit_id", referencedColumnName = "unit_id", insertable = false, updatable = false),
-            @JoinColumn(name = "pull_id", referencedColumnName = "pull_id", insertable = false, updatable = false) })
+            @JoinColumn(name = "pull_number", referencedColumnName = "pull_number", insertable = false, updatable = false),
+            @JoinColumn(name = "repo_id", referencedColumnName = "repo_id", insertable = false, updatable = false) })
     
     @EmbeddedId
     private PullMasterCompositeId pCompositeId;
