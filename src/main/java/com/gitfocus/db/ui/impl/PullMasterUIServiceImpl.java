@@ -149,7 +149,7 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 		pullMasterList = pullRepository.getPullDetailOnDateForMemebers(userName, repoId, inputDates[0], inputDates[1]);
 
 		// get noOfDaysBetween or hours for first commit 
-		firstCommitList = pullRepository.timeToFirstCommit(repoId);
+		firstCommitList = pullRepository.getTimeToFirstCommit(repoId);
 		for(String commitList : firstCommitList) {
 			String[] commitDates = commitList.split(",");
 			String createdDate = (String)Array.get(commitDates, 0);

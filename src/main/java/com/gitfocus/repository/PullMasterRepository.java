@@ -82,6 +82,6 @@ public interface PullMasterRepository extends JpaRepository<PullMaster, Object> 
 	 */
 	@Query("select pm.createdTime, rd.reviewedAt from PullMaster pm inner join ReviewDetails rd on "
 			+ "rd.pullNumber=pm.pCompositeId.pullNumber and rd.repoId=:repoId and pm.pCompositeId.repoId=:repoId")
-	String[] timeToFirstCommit(int repoId);
+	String[] getTimeToFirstCommit(int repoId);
 
 }
