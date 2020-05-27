@@ -156,7 +156,7 @@ public class GitFocusUtil {
 	 * 
 	 * @param createdDate
 	 * @param reviewedDate
-	 * @return noOfDaysBetween
+	 * @return calculteDaysBetweenTwoDatesOrHours
 	 */
 	public static List<Entry<Long, String>> calculteDaysBetweenTwoDatesOrHours(String createdDate, String reviewedDate) {
 		logger.info("calculteDaysBetweenTwoDates - Date is  " + createdDate, reviewedDate);

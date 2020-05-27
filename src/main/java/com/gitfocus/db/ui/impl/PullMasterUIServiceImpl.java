@@ -137,7 +137,7 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 		Date cDate = null;
 
 		List<Object[]> pullMasterList = new ArrayList<Object[]>();
-		String[] firstCommitList = null;
+		String[] firstCommentList = null;
 		ArrayList<PullMasterCommitDetailOnDate> pullList = new ArrayList<PullMasterCommitDetailOnDate>();
 		PullMasterCommitDetailOnDate model = new PullMasterCommitDetailOnDate();
 
@@ -148,9 +148,9 @@ public class PullMasterUIServiceImpl implements IPullMasterUIService {
 		// get pullMasterDetails based on userName, repoId, startDate and endDate
 		pullMasterList = pullRepository.getPullDetailOnDateForMemebers(userName, repoId, inputDates[0], inputDates[1]);
 
-		// get noOfDaysBetween or hours for first commit 
-		firstCommitList = pullRepository.getTimeToFirstCommit(repoId);
-		for(String commitList : firstCommitList) {
+		// get noOfDaysBetween or hours for first comment 
+		firstCommentList = pullRepository.getTimeToFirstComment(repoId);
+		for(String commitList : firstCommentList) {
 			String[] commitDates = commitList.split(",");
 			String createdDate = (String)Array.get(commitDates, 0);
 			String reviewedDate = (String)Array.get(commitDates, 1);
