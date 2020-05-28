@@ -1,6 +1,7 @@
 package com.gitfocus.db.ui.impl;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.gitfocus.db.ui.model.DailyUserCommitList;
 import com.gitfocus.db.ui.model.TeamMembersCommitDetail;
 import com.gitfocus.db.ui.model.TeamMembersCommitDetailOnDate;
 import com.gitfocus.db.ui.model.TeamRepositoryCommitDetails;
@@ -24,8 +26,10 @@ import com.gitfocus.repository.UnitReposRepository;
 import com.gitfocus.util.GitFocusUtil;
 
 /**
+ * 
  * @author Tech Mahindra 
  * Service class for CommitDetails fetch the data from DB and show in GUI
+ * 
  */
 @Service
 public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
@@ -105,7 +109,7 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 
 			commitList.add(model);
 
-			if (commitList.size() == 0) { 
+			if (commitList.size() == 0) {
 				logger.error("There is no Records for particular request on dateBasedCommitDetailsForTeamMembers "
 						+ teamName, repoName, timeperiod, endDate);
 				throw new ResourceNotFoundException(
@@ -177,7 +181,7 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 
 		commitList.add(model);
 
-		if (commitList.isEmpty()) {
+		if (commitList.size() == 0) {
 			logger.error("There is no Records for particular request on commitDetailOnDateForMemebers " + userName,
 					repoName, commitDate);
 			throw new ResourceNotFoundException("There is no Records for particular request on CommitDetailsService",
@@ -186,6 +190,60 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 
 		logger.info("Data processed successfully for commitDetailOnDateForMemebers()  " + userName, repoName,
 				commitDate);
+		return commitList;
+	}
+
+	@Override
+	public List<DailyUserCommitList> getDailyMemberCommitList(String repoName, String userName, String commitDate) {
+		// TODO Auto-generated method stub
+		logger.info("getDailyMemberCommitList " + userName, repoName, commitDate);
+
+		List<Object[]> memberCommitList = new ArrayList<Object[]>();
+		ArrayList<DailyUserCommitList> commitList = new ArrayList<DailyUserCommitList>();
+		DailyUserCommitList model = new DailyUserCommitList();
+
+		// get startDate and endDate
+		Date[] inputDates = GitFocusUtil.getStartAndEndDate(commitDate);
+		int repoId = uReposRepository.findRepoId(repoName);
+
+		// get commitDetails based on userName, repoId, startDate and endDate
+		memberCommitList = commitRepository.getDailyMemberCommitListOnDate(userName, repoId, inputDates[0], inputDates[1]);
+		for (Object[] obj : memberCommitList) {
+			Timestamp cDate = (Timestamp) obj[0];
+			String fileName = (String) obj[1];
+			String fileStatus = (String) obj[2];
+			String linesAdded = (String) obj[3];
+			String linesRemoved = (String) obj[4];
+
+			String[] fileNameArray = fileName.split(",");
+			String[] fileStatusArray = fileStatus.split(",");
+			String[] linesAddedArray = linesAdded.split(",");
+			String[] linesRemovedArray = linesRemoved.split(",");
+
+			String commDate = cDate.toString().substring(10, 16).replace(':', '.');
+			float x = Float.parseFloat(commDate);
+
+			model.setUserId(userName);
+			model.setCommitDate(cDate);
+			model.setFileNameArray(fileNameArray);
+			model.setFileStatusArray(fileStatusArray);
+			model.setLinesAddedArray(linesAddedArray);
+			model.setLinesRemovedArray(linesRemovedArray);
+			model.setX(x);
+
+			commitList.add(model);
+		}
+
+		if (commitList.size() == 0) {
+			logger.error("There is no Records for particular request on commitDetailOnDateForMemebers " + userName,
+					repoName, commitDate);
+			throw new ResourceNotFoundException(
+					"There is no Records for particular request on CommitDetailsService", userName, repoName);
+		}
+
+		logger.info("Data processed successfully for commitDetailOnDateForMemebers()  " + userName, repoName,
+				commitDate);
+
 		return commitList;
 	}
 

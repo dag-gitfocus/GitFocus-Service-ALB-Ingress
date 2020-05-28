@@ -7,8 +7,8 @@ import java.util.Map.Entry;
 
 /**
  * 
- * @author Tech Mahindra A class for showing pull master commit details and
- *         count based on date
+ * @author Tech Mahindra 
+ * A class for showing pull master commit details and count based on date
  * 
  */
 public class PullMasterCommitDetailOnDate implements Serializable {
