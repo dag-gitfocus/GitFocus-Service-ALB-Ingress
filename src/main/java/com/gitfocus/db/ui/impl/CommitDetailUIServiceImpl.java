@@ -200,7 +200,6 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 
 		List<Object[]> memberCommitList = new ArrayList<Object[]>();
 		ArrayList<DailyUserCommitList> commitList = new ArrayList<DailyUserCommitList>();
-		DailyUserCommitList model = new DailyUserCommitList();
 
 		// get startDate and endDate
 		Date[] inputDates = GitFocusUtil.getStartAndEndDate(commitDate);
@@ -209,6 +208,7 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 		// get commitDetails based on userName, repoId, startDate and endDate
 		memberCommitList = commitRepository.getDailyMemberCommitListOnDate(userName, repoId, inputDates[0], inputDates[1]);
 		for (Object[] obj : memberCommitList) {
+			DailyUserCommitList model = new DailyUserCommitList();
 			Timestamp cDate = (Timestamp) obj[0];
 			String fileName = (String) obj[1];
 			String fileStatus = (String) obj[2];
@@ -235,14 +235,11 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 		}
 
 		if (commitList.size() == 0) {
-			logger.error("There is no Records for particular request on commitDetailOnDateForMemebers " + userName,
-					repoName, commitDate);
-			throw new ResourceNotFoundException(
-					"There is no Records for particular request on CommitDetailsService", userName, repoName);
+			logger.error("There is no Records for particular request on commitDetailOnDateForMemebers " + userName, repoName, commitDate);
+			throw new ResourceNotFoundException("There is no Records for particular request on CommitDetailsService", userName, repoName);
 		}
 
-		logger.info("Data processed successfully for commitDetailOnDateForMemebers()  " + userName, repoName,
-				commitDate);
+		logger.info("Data processed successfully for commitDetailOnDateForMemebers()  " + userName, repoName, commitDate);
 
 		return commitList;
 	}

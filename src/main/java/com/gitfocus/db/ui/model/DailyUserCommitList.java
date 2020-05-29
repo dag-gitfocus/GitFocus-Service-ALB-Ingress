@@ -5,8 +5,10 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 
 /**
+ * 
  * @author Tech Mahindra 
  * A class for showing daily user commit details based on date
+ * 
  */
 public class DailyUserCommitList implements Serializable {
 
@@ -22,7 +24,7 @@ public class DailyUserCommitList implements Serializable {
 	private String[] fileStatusArray;
 	private String[] linesRemovedArray;
 	private float x;
-	
+
 	/**
 	 * 
 	 * @return userId
