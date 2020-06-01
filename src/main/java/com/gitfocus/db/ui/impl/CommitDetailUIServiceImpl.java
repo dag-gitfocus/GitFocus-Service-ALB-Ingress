@@ -64,7 +64,7 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 
 		// get team_memebers based on team_name
 		teamMembers = teamMemRepos.getTeamMembersByTeamName(teamName);
-		// one week time period data
+		// one week time period of data
 		if (timeperiod.equalsIgnoreCase("oneweek")) {
 			for (Object userId : teamMembers) {
 				memberCommitList = commitRepository.getCommitDetailsForMemberForOneWeek(repoName, userId.toString(),
@@ -80,7 +80,7 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 				memberCommitListResults.addAll(memberCommitList);
 			}
 		}
-		// two week time period data
+		// two week time period of data
 		if (timeperiod.equalsIgnoreCase("twoweek")) {
 			for (Object userId : teamMembers) {
 				memberCommitList = commitRepository.getCommitDetailsForMemberForTwoWeek(repoName, userId.toString(),
@@ -220,7 +220,7 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 			String[] linesAddedArray = linesAdded.split(",");
 			String[] linesRemovedArray = linesRemoved.split(",");
 
-			String commDate = cDate.toString().substring(10, 16).replace(':', '.');
+			String commDate = cDate.toString().substring(11, 16).replace(':', '.');
 			float x = Float.parseFloat(commDate);
 
 			model.setUserId(userName);
