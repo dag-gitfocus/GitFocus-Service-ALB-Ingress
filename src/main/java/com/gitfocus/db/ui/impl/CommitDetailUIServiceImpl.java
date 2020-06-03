@@ -208,12 +208,17 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 		// get commitDetails based on userName, repoId, startDate and endDate
 		memberCommitList = commitRepository.getDailyMemberCommitListOnDate(userName, repoId, inputDates[0], inputDates[1]);
 		for (Object[] obj : memberCommitList) {
+			
 			DailyUserCommitList model = new DailyUserCommitList();
+			int totalLinesAdded = 0;
+			int totalLinesRemoved = 0;
+
 			Timestamp cDate = (Timestamp) obj[0];
 			String fileName = (String) obj[1];
 			String fileStatus = (String) obj[2];
 			String linesAdded = (String) obj[3];
 			String linesRemoved = (String) obj[4];
+			String commitMessage = (String) obj[5];
 
 			String[] fileNameArray = fileName.split(",");
 			String[] fileStatusArray = fileStatus.split(",");
@@ -223,12 +228,23 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 			String commDate = cDate.toString().substring(11, 16).replace(':', '.');
 			float x = Float.parseFloat(commDate);
 
+			for (String linesAddedObj : linesAddedArray) {
+				totalLinesAdded = totalLinesAdded + Integer.parseInt(linesAddedObj);
+			}
+			for (String linesRemovedObj : linesRemovedArray) {
+				totalLinesRemoved = totalLinesRemoved + Integer.parseInt(linesRemovedObj);
+			}
+
 			model.setUserId(userName);
 			model.setCommitDate(cDate);
 			model.setFileNameArray(fileNameArray);
 			model.setFileStatusArray(fileStatusArray);
 			model.setLinesAddedArray(linesAddedArray);
 			model.setLinesRemovedArray(linesRemovedArray);
+			model.setTotalFileCount(fileNameArray.length);
+			model.setCommitMessage(commitMessage);
+			model.setTotalLinesAdded(totalLinesAdded);
+			model.setTotalLinesRemoved(totalLinesRemoved);
 			model.setX(x);
 
 			commitList.add(model);

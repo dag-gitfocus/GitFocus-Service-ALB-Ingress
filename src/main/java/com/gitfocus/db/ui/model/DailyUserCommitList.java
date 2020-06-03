@@ -23,6 +23,11 @@ public class DailyUserCommitList implements Serializable {
 	private String[] linesAddedArray;
 	private String[] fileStatusArray;
 	private String[] linesRemovedArray;
+	private int totalFileCount;
+	private int totalLinesAdded;
+	private int totalLinesRemoved;
+	private String branchName;
+	private String commitMessage = null;
 	private float x;
 
 	/**
@@ -32,6 +37,7 @@ public class DailyUserCommitList implements Serializable {
 	public String getUserId() {
 		return userId;
 	}
+
 	/**
 	 * 
 	 * @param userId
@@ -39,6 +45,7 @@ public class DailyUserCommitList implements Serializable {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
 	/**
 	 * 
 	 * @return commitDate
@@ -46,6 +53,7 @@ public class DailyUserCommitList implements Serializable {
 	public Timestamp getCommitDate() {
 		return commitDate;
 	}
+
 	/**
 	 * 
 	 * @param commitDate
@@ -53,6 +61,7 @@ public class DailyUserCommitList implements Serializable {
 	public void setCommitDate(Timestamp commitDate) {
 		this.commitDate = commitDate;
 	}
+
 	/**
 	 * 
 	 * @return fileNameArray
@@ -60,6 +69,7 @@ public class DailyUserCommitList implements Serializable {
 	public String[] getFileNameArray() {
 		return fileNameArray;
 	}
+
 	/**
 	 * 
 	 * @param fileNameArray
@@ -67,6 +77,7 @@ public class DailyUserCommitList implements Serializable {
 	public void setFileNameArray(String[] fileNameArray) {
 		this.fileNameArray = fileNameArray;
 	}
+
 	/**
 	 * 
 	 * @return linesAddedArray
@@ -74,6 +85,7 @@ public class DailyUserCommitList implements Serializable {
 	public String[] getLinesAddedArray() {
 		return linesAddedArray;
 	}
+
 	/**
 	 * 
 	 * @param linesAddedArray
@@ -81,6 +93,7 @@ public class DailyUserCommitList implements Serializable {
 	public void setLinesAddedArray(String[] linesAddedArray) {
 		this.linesAddedArray = linesAddedArray;
 	}
+
 	/**
 	 * 
 	 * @return fileStatusArray
@@ -88,6 +101,7 @@ public class DailyUserCommitList implements Serializable {
 	public String[] getFileStatusArray() {
 		return fileStatusArray;
 	}
+
 	/**
 	 * 
 	 * @param fileStatusArray
@@ -95,6 +109,7 @@ public class DailyUserCommitList implements Serializable {
 	public void setFileStatusArray(String[] fileStatusArray) {
 		this.fileStatusArray = fileStatusArray;
 	}
+
 	/**
 	 * 
 	 * @return linesRemovedArray
@@ -102,6 +117,7 @@ public class DailyUserCommitList implements Serializable {
 	public String[] getLinesRemovedArray() {
 		return linesRemovedArray;
 	}
+
 	/**
 	 * 
 	 * @param linesRemovedArray
@@ -109,6 +125,77 @@ public class DailyUserCommitList implements Serializable {
 	public void setLinesRemovedArray(String[] linesRemovedArray) {
 		this.linesRemovedArray = linesRemovedArray;
 	}
+
+	/**
+	 * @return
+	 */
+	public int getTotalFileCount() {
+		return totalFileCount;
+	}
+
+	/**
+	 * @param totalFileCount
+	 */
+	public void setTotalFileCount(int totalFileCount) {
+		this.totalFileCount = totalFileCount;
+	}
+
+	/**
+	 * @return the totalLinesAdded
+	 */
+	public int getTotalLinesAdded() {
+		return totalLinesAdded;
+	}
+
+	/**
+	 * @param totalLinesAdded the totalLinesAdded to set
+	 */
+	public void setTotalLinesAdded(int totalLinesAdded) {
+		this.totalLinesAdded = totalLinesAdded;
+	}
+
+	/**
+	 * @return the totalLinesRemoved
+	 */
+	public int getTotalLinesRemoved() {
+		return totalLinesRemoved;
+	}
+
+	/**
+	 * @param totalLinesRemoved the totalLinesRemoved to set
+	 */
+	public void setTotalLinesRemoved(int totalLinesRemoved) {
+		this.totalLinesRemoved = totalLinesRemoved;
+	}
+
+	/**
+	 * @return the branchName
+	 */
+	public String getBranchName() {
+		return branchName;
+	}
+
+	/**
+	 * @param branchName the branchName to set
+	 */
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
+	}
+
+	/**
+	 * @return the commitMessage
+	 */
+	public String getCommitMessage() {
+		return commitMessage;
+	}
+
+	/**
+	 * @param commitMessage the commitMessage to set
+	 */
+	public void setCommitMessage(String commitMessage) {
+		this.commitMessage = commitMessage;
+	}
+
 	/**
 	 * 
 	 * @return x
@@ -116,6 +203,7 @@ public class DailyUserCommitList implements Serializable {
 	public float getX() {
 		return x;
 	}
+
 	/**
 	 * 
 	 * @param x
@@ -128,11 +216,16 @@ public class DailyUserCommitList implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((branchName == null) ? 0 : branchName.hashCode());
 		result = prime * result + ((commitDate == null) ? 0 : commitDate.hashCode());
+		result = prime * result + ((commitMessage == null) ? 0 : commitMessage.hashCode());
 		result = prime * result + Arrays.hashCode(fileNameArray);
 		result = prime * result + Arrays.hashCode(fileStatusArray);
 		result = prime * result + Arrays.hashCode(linesAddedArray);
 		result = prime * result + Arrays.hashCode(linesRemovedArray);
+		result = prime * result + totalFileCount;
+		result = prime * result + totalLinesAdded;
+		result = prime * result + totalLinesRemoved;
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		result = prime * result + Float.floatToIntBits(x);
 		return result;
@@ -147,10 +240,20 @@ public class DailyUserCommitList implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		DailyUserCommitList other = (DailyUserCommitList) obj;
+		if (branchName == null) {
+			if (other.branchName != null)
+				return false;
+		} else if (!branchName.equals(other.branchName))
+			return false;
 		if (commitDate == null) {
 			if (other.commitDate != null)
 				return false;
 		} else if (!commitDate.equals(other.commitDate))
+			return false;
+		if (commitMessage == null) {
+			if (other.commitMessage != null)
+				return false;
+		} else if (!commitMessage.equals(other.commitMessage))
 			return false;
 		if (!Arrays.equals(fileNameArray, other.fileNameArray))
 			return false;
@@ -159,6 +262,12 @@ public class DailyUserCommitList implements Serializable {
 		if (!Arrays.equals(linesAddedArray, other.linesAddedArray))
 			return false;
 		if (!Arrays.equals(linesRemovedArray, other.linesRemovedArray))
+			return false;
+		if (totalFileCount != other.totalFileCount)
+			return false;
+		if (totalLinesAdded != other.totalLinesAdded)
+			return false;
+		if (totalLinesRemoved != other.totalLinesRemoved)
 			return false;
 		if (userId == null) {
 			if (other.userId != null)
@@ -175,7 +284,9 @@ public class DailyUserCommitList implements Serializable {
 		return "DailyUserCommitList [userId=" + userId + ", commitDate=" + commitDate + ", fileNameArray="
 				+ Arrays.toString(fileNameArray) + ", linesAddedArray=" + Arrays.toString(linesAddedArray)
 				+ ", fileStatusArray=" + Arrays.toString(fileStatusArray) + ", linesRemovedArray="
-				+ Arrays.toString(linesRemovedArray) + ", x=" + x + "]";
+				+ Arrays.toString(linesRemovedArray) + ", totalFileCount=" + totalFileCount + ", totalLinesAdded="
+				+ totalLinesAdded + ", totalLinesRemoved=" + totalLinesRemoved + ", branchName=" + branchName
+				+ ", commitMessage=" + commitMessage + ", x=" + x + "]";
 	}
 
 }

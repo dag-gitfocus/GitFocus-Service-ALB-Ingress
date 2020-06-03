@@ -79,7 +79,7 @@ public interface CommitDetailsRepository extends JpaRepository<CommitDetails, Ob
 	 * 
 	 * @param repoId
 	 * @param commitId
-	 * @return
+	 * @return getBranchNameByShaIdAndRepoId
 	 */
 	@Query("select cd.cCompositeId.branchName from CommitDetails cd where cd.cCompositeId.repoId=:repoId "
 			+ "and cd.cCompositeId.shaId=:commitId")
@@ -91,9 +91,9 @@ public interface CommitDetailsRepository extends JpaRepository<CommitDetails, Ob
 	 * @param repoId
 	 * @param date
 	 * @param date2
-	 * @return
+	 * @return getDailyMemberCommitListOnDate
 	 */
-	@Query("select distinct cd.commitDate, cd.fileName, cd.fileStatus, cd.linesAdded, cd.linesRemoved from CommitDetails cd where cd.userId=:userName "
+	@Query("select distinct cd.commitDate, cd.fileName, cd.fileStatus, cd.linesAdded, cd.linesRemoved, cd.message from CommitDetails cd where cd.userId=:userName "
 			+ "and cd.cCompositeId.repoId=:repoId and cd.commitDate >=cast(:startDate as date ) and cd.commitDate <= cast(:endDate as date)"
 			+ "order by cd.commitDate")
 	List<Object[]> getDailyMemberCommitListOnDate(String userName, int repoId, Date startDate, Date endDate);
