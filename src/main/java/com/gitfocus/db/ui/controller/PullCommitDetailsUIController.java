@@ -41,12 +41,12 @@ public class PullCommitDetailsUIController {
 	 * @throws ParseException
 	 */
 
-	@GetMapping("/gitfocus/getPullCommitDetailBasedOnPR/{pullNo}/{branchName}/{repoName}")
+	@GetMapping("/gitfocus/getPullCommitDetailBasedOnPR/{pullNo}/{branchName}/{repoName}/{rownum}")
 	public List<TeamMembersCommitDetailBasedOnPR> getPullCommitDetailBasedOnPR(@PathVariable("pullNo") int pullNo,
-			@PathVariable("branchName") String branchName, @PathVariable("repoName") String repoName) throws ParseException {
+			@PathVariable("branchName") String branchName, @PathVariable("repoName") String repoName,@PathVariable("rownum") int rownum) throws ParseException {
 		logger.info("getPullCommitDetailBasedOnPR", pullNo, repoName);
 		List<TeamMembersCommitDetailBasedOnPR> commitDetailsBasedonPRJson = null;
-		commitDetailsBasedonPRJson = pullCommitService.getCommitDetailsBasedOnPR(pullNo, branchName, repoName);
+		commitDetailsBasedonPRJson = pullCommitService.getCommitDetailsBasedOnPR(pullNo, branchName, repoName, rownum);
 		logger.info("getPullCommitDetailBasedOnPR Records", commitDetailsBasedonPRJson);
 		return commitDetailsBasedonPRJson;
 	}

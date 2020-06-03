@@ -15,6 +15,6 @@ import com.gitfocus.db.ui.model.TeamMembersCommitDetailBasedOnPR;
 @Repository
 public interface IPullCommitUIService {
 
-	public List<TeamMembersCommitDetailBasedOnPR> getCommitDetailsBasedOnPR(int pullNo, String branchName, String repoName) throws ParseException;
+	public List<TeamMembersCommitDetailBasedOnPR> getCommitDetailsBasedOnPR(int pullNo, String branchName, String repoName,int rownum) throws ParseException;
 
 }

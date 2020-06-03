@@ -1,5 +1,6 @@
 package com.gitfocus.db.ui.impl;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class PullCommitUIServiceImpl implements IPullCommitUIService {
 	PullCommitRepository pullCommitRepository;
 
 	@Override
-	public List<TeamMembersCommitDetailBasedOnPR> getCommitDetailsBasedOnPR(int pullNo, String branchName, String repoName) throws ParseException {
+	public List<TeamMembersCommitDetailBasedOnPR> getCommitDetailsBasedOnPR(int pullNo, String branchName, String repoName,int rownum) throws ParseException {
 		logger.info("commitDetailBasedOnPR " + pullNo, branchName, repoName);
 		
 		int totalLinesAdded = 0;
@@ -52,10 +53,13 @@ public class PullCommitUIServiceImpl implements IPullCommitUIService {
 		int totalFilesAdded = 0;
 		int totalFilesModified = 0;
 		String userName = null;
+		Timestamp commDate = null;
 		String[] linesAddedArr = null;
 		String[] linesRemovedArr = null;
 		String[] fileStatusArr = null;
-		String[] messageArr = null;
+		String[] fileNameArr = null;
+		//String[] messageArr = null;
+		String message = null;
 		ArrayList<String> msgList = new ArrayList<String>();
 		List<Object[]> commitdetails = new ArrayList<Object[]>();
 		
@@ -63,13 +67,16 @@ public class PullCommitUIServiceImpl implements IPullCommitUIService {
 		TeamMembersCommitDetailBasedOnPR model = new TeamMembersCommitDetailBasedOnPR();
 		
 		int repoId = uReposRepository.findRepoId(repoName);
-		commitdetails = pullCommitRepository.getCommitDetailsBasedOnPR(pullNo, branchName, repoId);
+		commitdetails = pullCommitRepository.getCommitDetailsBasedOnPR(pullNo, branchName, repoId, rownum);
 		for (Object[] obj : commitdetails) {
 			userName = (String) obj[0];
-			msgList.add((String) obj[2]);
+			commDate = (Timestamp) obj[1];
+			message = ((String) obj[2]);
 			String fileStatus = (String) obj[3];
 			String linesAdded = (String) obj[4];
 			String linedRemoved = (String) obj[5];
+			String fileName = (String) obj[6];
+			fileNameArr = fileName.split(",");
 			fileStatusArr = fileStatus.split(",");
 			linesAddedArr = linesAdded.split(",");
 			linesRemovedArr = linedRemoved.split(",");
@@ -89,13 +96,19 @@ public class PullCommitUIServiceImpl implements IPullCommitUIService {
 				totalLinesRemoved = totalLinesRemoved + Integer.parseInt(linesRemovedObj);
 			}
 		}
-		model.setUser(userName);
-		messageArr = msgList.toArray(new String[msgList.size()]);
-		model.setCommitMessageArray(messageArr);
+		model.setUserId(userName);
+		model.setCommitMessage(message);
+		model.setCommitDate(commDate);
+		model.setFileStatusArray(fileStatusArr);
+		model.setFileNameArray(fileNameArr);
+		model.setTotalFileCount(fileNameArr.length);
+		model.setLinesAddedArray(linesAddedArr);
+		model.setLinesRemovedArray(linesRemovedArr);
+		model.setBranchName(branchName);
 		model.setTotalFilesAdded(String.valueOf(totalFilesAdded));
 		model.setTotalFilesModified(String.valueOf(totalFilesModified));
-		model.setLinesAdded(String.valueOf(totalLinesAdded));
-		model.setLinesRemoved(String.valueOf(totalLinesRemoved));
+		model.setTotalLinesAdded(String.valueOf(totalLinesAdded));
+		model.setTotalLinesRemoved(String.valueOf(totalLinesRemoved));
 
 		commitList.add(model);
 
