@@ -212,7 +212,8 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 			DailyUserCommitList model = new DailyUserCommitList();
 			int totalLinesAdded = 0;
 			int totalLinesRemoved = 0;
-
+			int totalFilesAdded = 0;
+			int totalFilesModified = 0;
 			Timestamp cDate = (Timestamp) obj[0];
 			String fileName = (String) obj[1];
 			String fileStatus = (String) obj[2];
@@ -227,6 +228,15 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 
 			String commDate = cDate.toString().substring(11, 16).replace(':', '.');
 			float x = Float.parseFloat(commDate);
+			
+			for (String fileStatusObj : fileStatusArray) {
+				if (fileStatusObj.equalsIgnoreCase("modified")) {
+					totalFilesModified = totalFilesModified + 1;
+				}
+				if (fileStatusObj.equalsIgnoreCase("added")) {
+					totalFilesAdded = totalFilesAdded + 1;
+				}
+			}
 
 			for (String linesAddedObj : linesAddedArray) {
 				totalLinesAdded = totalLinesAdded + Integer.parseInt(linesAddedObj);
@@ -245,6 +255,8 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 			model.setCommitMessage(commitMessage);
 			model.setTotalLinesAdded(totalLinesAdded);
 			model.setTotalLinesRemoved(totalLinesRemoved);
+			model.setTotalFilesAdded(String.valueOf(totalFilesAdded));
+			model.setTotalFilesModified(String.valueOf(totalFilesModified));
 			model.setX(x);
 
 			commitList.add(model);

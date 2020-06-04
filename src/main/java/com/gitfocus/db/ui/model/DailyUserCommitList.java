@@ -26,6 +26,8 @@ public class DailyUserCommitList implements Serializable {
 	private int totalFileCount;
 	private int totalLinesAdded;
 	private int totalLinesRemoved;
+	private String totalFilesAdded;
+	private String totalFilesModified;
 	private String branchName;
 	private String commitMessage = null;
 	private float x;
@@ -169,6 +171,34 @@ public class DailyUserCommitList implements Serializable {
 	}
 
 	/**
+	 * @return the totalFilesAdded
+	 */
+	public String getTotalFilesAdded() {
+		return totalFilesAdded;
+	}
+
+	/**
+	 * @param totalFilesAdded the totalFilesAdded to set
+	 */
+	public void setTotalFilesAdded(String totalFilesAdded) {
+		this.totalFilesAdded = totalFilesAdded;
+	}
+
+	/**
+	 * @return the totalFilesModified
+	 */
+	public String getTotalFilesModified() {
+		return totalFilesModified;
+	}
+
+	/**
+	 * @param totalFilesModified the totalFilesModified to set
+	 */
+	public void setTotalFilesModified(String totalFilesModified) {
+		this.totalFilesModified = totalFilesModified;
+	}
+
+	/**
 	 * @return the branchName
 	 */
 	public String getBranchName() {
@@ -224,6 +254,8 @@ public class DailyUserCommitList implements Serializable {
 		result = prime * result + Arrays.hashCode(linesAddedArray);
 		result = prime * result + Arrays.hashCode(linesRemovedArray);
 		result = prime * result + totalFileCount;
+		result = prime * result + ((totalFilesAdded == null) ? 0 : totalFilesAdded.hashCode());
+		result = prime * result + ((totalFilesModified == null) ? 0 : totalFilesModified.hashCode());
 		result = prime * result + totalLinesAdded;
 		result = prime * result + totalLinesRemoved;
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
@@ -265,6 +297,16 @@ public class DailyUserCommitList implements Serializable {
 			return false;
 		if (totalFileCount != other.totalFileCount)
 			return false;
+		if (totalFilesAdded == null) {
+			if (other.totalFilesAdded != null)
+				return false;
+		} else if (!totalFilesAdded.equals(other.totalFilesAdded))
+			return false;
+		if (totalFilesModified == null) {
+			if (other.totalFilesModified != null)
+				return false;
+		} else if (!totalFilesModified.equals(other.totalFilesModified))
+			return false;
 		if (totalLinesAdded != other.totalLinesAdded)
 			return false;
 		if (totalLinesRemoved != other.totalLinesRemoved)
@@ -285,8 +327,11 @@ public class DailyUserCommitList implements Serializable {
 				+ Arrays.toString(fileNameArray) + ", linesAddedArray=" + Arrays.toString(linesAddedArray)
 				+ ", fileStatusArray=" + Arrays.toString(fileStatusArray) + ", linesRemovedArray="
 				+ Arrays.toString(linesRemovedArray) + ", totalFileCount=" + totalFileCount + ", totalLinesAdded="
-				+ totalLinesAdded + ", totalLinesRemoved=" + totalLinesRemoved + ", branchName=" + branchName
-				+ ", commitMessage=" + commitMessage + ", x=" + x + "]";
+				+ totalLinesAdded + ", totalLinesRemoved=" + totalLinesRemoved + ", totalFilesAdded=" + totalFilesAdded
+				+ ", totalFilesModified=" + totalFilesModified + ", branchName=" + branchName + ", commitMessage="
+				+ commitMessage + ", x=" + x + "]";
 	}
+
+	
 
 }
