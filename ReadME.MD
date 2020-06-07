@@ -8,7 +8,7 @@ Spring Boot, PostgreSQL, JPA, Hibernate, Angular8 and Log4j2
 Steps to Setup
 ==============
 1. Clone the repository
------------------------
+------------------------
 
 ==> https://github.com/dag-gitfocus/GitFocus_Service.git
 
