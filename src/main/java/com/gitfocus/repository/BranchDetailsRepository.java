@@ -10,7 +10,7 @@ import com.gitfocus.git.db.model.BranchDetails;
 
 /**
  * @author Tech Mahindra 
- * Repository interface for commit_details table in DB
+ * Repository interface for branch_details table in DB
  */
 @Repository
 public interface BranchDetailsRepository extends JpaRepository<BranchDetails, Object> {

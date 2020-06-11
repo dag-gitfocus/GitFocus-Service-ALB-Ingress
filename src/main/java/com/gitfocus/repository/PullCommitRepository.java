@@ -20,7 +20,7 @@ public interface PullCommitRepository extends JpaRepository<PullCommit, Object> 
 	 * @param pullNo
 	 * @param branchName
 	 * @param repoId
-	 * @return
+	 * @return getCommitDetailsBasedOnPR
 	 */
 	@Query(value = "select * from (select cm.user_id,cm.commit_date,cm.message,cm.file_status,cm.lines_added,cm.lines_removed,cm.file_name,cm.branch_name,\r\n" + 
 			"			ROW_NUMBER () OVER (ORDER BY commit_date)\r\n" + 

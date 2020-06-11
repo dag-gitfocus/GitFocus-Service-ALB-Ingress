@@ -58,9 +58,7 @@ public class PullCommitUIServiceImpl implements IPullCommitUIService {
 		String[] linesRemovedArr = null;
 		String[] fileStatusArr = null;
 		String[] fileNameArr = null;
-		//String[] messageArr = null;
 		String message = null;
-		ArrayList<String> msgList = new ArrayList<String>();
 		List<Object[]> commitdetails = new ArrayList<Object[]>();
 		
 		List<TeamMembersCommitDetailBasedOnPR> commitList = new ArrayList<TeamMembersCommitDetailBasedOnPR>();
@@ -112,7 +110,7 @@ public class PullCommitUIServiceImpl implements IPullCommitUIService {
 
 		commitList.add(model);
 
-		if (commitList.isEmpty()) {
+		if (commitList.size() == 0) {
 			logger.error("There is no Records for particular request on pullCommitdetailsBasedOnPR" + pullNo, branchName, repoName);
 			
 			throw new ResourceNotFoundException("There is no Records for particular request on CommitDetailsService",
