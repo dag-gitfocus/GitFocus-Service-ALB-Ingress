@@ -30,7 +30,7 @@ public interface ICommitDetailUIService {
 	 * @param endDate
 	 * @return TeamMembersCommitDetails
 	 */
-	public List<TeamMembersCommitDetail> dateBasedCommitDetailsForTeamMembers(String teamName, String repoName,
+	public List<TeamMembersCommitDetail> dateBasedCommitDetailsForTeam(String teamName, String repoName,
 			String timeperiod, String endDate) throws JsonProcessingException;
 
 	/**

@@ -1,8 +1,10 @@
 package com.gitfocus.db.ui.impl;
 
 import java.math.BigInteger;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,11 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.gitfocus.db.ui.model.ReviewDetailsForTeamMembers;
+import com.gitfocus.db.ui.model.ReviewDetailOnDateForMemebers;
+import com.gitfocus.db.ui.model.ReviewDetailsForTeam;
 import com.gitfocus.db.ui.service.IReviewDetailUIService;
 import com.gitfocus.exception.ResourceNotFoundException;
 import com.gitfocus.repository.ReviewDetailsRepository;
 import com.gitfocus.repository.TeamMembersRepository;
+import com.gitfocus.repository.UnitReposRepository;
 import com.gitfocus.util.GitFocusUtil;
 
 /**
@@ -40,9 +44,11 @@ public class ReviewDetailsUIServiceImpl implements IReviewDetailUIService {
 	ReviewDetailsRepository reviewDetailsRepo;
 	@Autowired
 	TeamMembersRepository teamMemRepos;
+	@Autowired
+	private UnitReposRepository uReposRepository;
 
 	@Override
-	public List<ReviewDetailsForTeamMembers> dateBasedReviewDetailsForTeamMembers(String teamName, String repoName,
+	public List<ReviewDetailsForTeam> dateBasedReviewDetailsForTeamMembers(String teamName, String repoName,
 			String timeperiod, String endDate) throws JsonProcessingException {
 		// TODO Auto-generated method stub
 		logger.info("dateBasedCommitDetailsForTeamMembers " + teamName, repoName, timeperiod, endDate);
@@ -50,7 +56,7 @@ public class ReviewDetailsUIServiceImpl implements IReviewDetailUIService {
 		List<Object> teamMembers = null;
 		List<Object[]> memberReviewList = new ArrayList<Object[]>();
 		List<Object[]> memberReviewListResults = new ArrayList<Object[]>();
-		ArrayList<ReviewDetailsForTeamMembers> commitList = new ArrayList<ReviewDetailsForTeamMembers>();
+		ArrayList<ReviewDetailsForTeam> commitList = new ArrayList<ReviewDetailsForTeam>();
 		int cCount = 0;
 
 		// get team_memebers based on team_name
@@ -88,7 +94,7 @@ public class ReviewDetailsUIServiceImpl implements IReviewDetailUIService {
 			}
 		}
 		for (Object[] obj : memberReviewListResults) {
-			ReviewDetailsForTeamMembers model = new ReviewDetailsForTeamMembers();
+			ReviewDetailsForTeam model = new ReviewDetailsForTeam();
 			String user = (String) obj[1];
 			String commitDate = sd.format(obj[2]);
 			cCount = ((BigInteger) obj[3]).intValue();
@@ -101,15 +107,60 @@ public class ReviewDetailsUIServiceImpl implements IReviewDetailUIService {
 			commitList.add(model);
 
 			if (commitList.size() == 0) {
-				logger.error("There is no Records for particular request on dateBasedCommitDetailsForTeamMembers "
+				logger.error("There is no Records for particular request on dateBasedCommitDetailsForTeamMembers"
 						+ teamName, repoName, timeperiod, endDate);
 				throw new ResourceNotFoundException(
-						"There is no Records for particular request on CommitDetailsService", teamName, repoName);
+						"There is no Records for particular request on dateBasedCommitDetailsForTeamMembers", teamName,
+						repoName);
 			}
 		}
 
 		logger.info("Data processed successfully for dateBasedCommitDetailsForTeamMembers()  " + teamName, repoName,
 				timeperiod, endDate);
+
+		return commitList;
+	}
+
+	@Override
+	public List<ReviewDetailOnDateForMemebers> reviewDetailOnDateForMemebers(String userName, String repoName,
+			String commitDate) throws ParseException {
+		// TODO Auto-generated method stub
+		logger.info("reviewDetailOnDateForMemebers " + userName, repoName, commitDate);
+		List<Object[]> reviewDetailsList = new ArrayList<Object[]>();
+		ArrayList<ReviewDetailOnDateForMemebers> commitList = new ArrayList<ReviewDetailOnDateForMemebers>();
+		List<String> pullNoList = new ArrayList<String>();
+		List<String> reviewCommentList = new ArrayList<String>();
+		List<String> stateList = new ArrayList<String>();
+
+		ReviewDetailOnDateForMemebers model = new ReviewDetailOnDateForMemebers();
+		// get startDate and endDate
+		Date[] inputDates = GitFocusUtil.getStartAndEndDate(commitDate);
+		int repoId = uReposRepository.findRepoId(repoName);
+		// get commitDetails based on userName, repoId, startDate and endDate
+		reviewDetailsList = reviewDetailsRepo.getCommitDetailOnDateForMemebers(userName, repoId, inputDates[0],
+				inputDates[1]);
+		for (Object[] obj : reviewDetailsList) {
+			pullNoList.add((String) String.valueOf(obj[2]));
+			reviewCommentList.add((String) obj[3]);
+			stateList.add((String) obj[4]);
+		}
+
+		model.setUserName(userName);
+		model.setRepoName(repoName);
+		model.setReviewDate(commitDate);
+		model.setPullNUmber(pullNoList);
+		model.setReviewComment(reviewCommentList);
+		model.setState(stateList);
+
+		commitList.add(model);
+
+		if (commitList.size() == 0) {
+			logger.error("There is no Records for particular request on reviewDetailOnDateForMemebers " + userName, repoName, commitDate);
+
+			throw new ResourceNotFoundException("There is no Records for particular request on reviewDetailOnDateForMemebers", userName, repoName);
+		}
+
+		logger.info("Data processed successfully for reviewDetailOnDateForMemebers()  " + userName, repoName, commitDate);
 
 		return commitList;
 	}

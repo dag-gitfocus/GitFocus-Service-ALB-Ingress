@@ -51,7 +51,7 @@ public class CommitDetailUIServiceImpl implements ICommitDetailUIService {
 	TeamMembersRepository teamMemRepos;
 
 	@Override
-	public List<TeamMembersCommitDetail> dateBasedCommitDetailsForTeamMembers(String teamName, String repoName,
+	public List<TeamMembersCommitDetail> dateBasedCommitDetailsForTeam(String teamName, String repoName,
 			String timeperiod, String endDate) throws JsonProcessingException {
 		// TODO Auto-generated method stub
 		logger.info("dateBasedCommitDetailsForTeamMembers " + teamName, repoName, timeperiod, endDate);

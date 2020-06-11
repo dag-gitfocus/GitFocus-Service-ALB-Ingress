@@ -6,14 +6,14 @@ import java.io.Serializable;
  * @author Tech Mahindra 
  * A class for showing each team members commit details based on date
  */
-public class ReviewDetailsForTeamMembers implements Serializable {
+public class ReviewDetailsForTeam implements Serializable {
 
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
 
-    public ReviewDetailsForTeamMembers() {
+    public ReviewDetailsForTeam() {
         super();
     }
 
@@ -79,7 +79,7 @@ public class ReviewDetailsForTeamMembers implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ReviewDetailsForTeamMembers other = (ReviewDetailsForTeamMembers) obj;
+        ReviewDetailsForTeam other = (ReviewDetailsForTeam) obj;
         if (commitCount == null) {
             if (other.commitCount != null)
                 return false;

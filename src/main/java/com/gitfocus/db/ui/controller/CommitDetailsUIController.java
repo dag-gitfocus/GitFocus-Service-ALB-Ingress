@@ -50,7 +50,7 @@ public class CommitDetailsUIController {
 
         logger.info("getDateBasedCommitDetailsForTeamMembers", teamName, repoName, timeperiod, endDate);
         List<TeamMembersCommitDetail> commitDetailsJson = null;
-        commitDetailsJson = commitService.dateBasedCommitDetailsForTeamMembers(teamName, repoName, timeperiod, endDate);
+        commitDetailsJson = commitService.dateBasedCommitDetailsForTeam(teamName, repoName, timeperiod, endDate);
         logger.info("getRepoCommitCountWeek Records", commitDetailsJson);
         return commitDetailsJson;
     }
