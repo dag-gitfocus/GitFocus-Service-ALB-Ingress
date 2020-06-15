@@ -1,6 +1,7 @@
 package com.gitfocus.db.ui.impl;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -131,7 +132,7 @@ public class ReviewDetailsUIServiceImpl implements IReviewDetailUIService {
 		List<String> pullNoList = new ArrayList<String>();
 		List<String> reviewCommentList = new ArrayList<String>();
 		List<String> stateList = new ArrayList<String>();
-
+		List<Timestamp> reviewDateList = new ArrayList<Timestamp>();
 		ReviewDetailOnDateForMemebers model = new ReviewDetailOnDateForMemebers();
 		// get startDate and endDate
 		Date[] inputDates = GitFocusUtil.getStartAndEndDate(commitDate);
@@ -143,6 +144,7 @@ public class ReviewDetailsUIServiceImpl implements IReviewDetailUIService {
 			pullNoList.add((String) String.valueOf(obj[2]));
 			reviewCommentList.add((String) obj[3]);
 			stateList.add((String) obj[4]);
+			reviewDateList.add((Timestamp) obj[1]);
 		}
 
 		model.setUserName(userName);
@@ -151,7 +153,7 @@ public class ReviewDetailsUIServiceImpl implements IReviewDetailUIService {
 		model.setPullNUmber(pullNoList);
 		model.setReviewComment(reviewCommentList);
 		model.setState(stateList);
-
+		model.setReviewedAt(reviewDateList);
 		commitList.add(model);
 
 		if (commitList.size() == 0) {

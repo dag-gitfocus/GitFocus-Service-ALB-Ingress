@@ -1,6 +1,7 @@
 package com.gitfocus.db.ui.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -21,6 +22,7 @@ public class ReviewDetailOnDateForMemebers implements Serializable {
 	private List<String> reviewComment;
 	private List<String> pullNUmber;
 	private List<String> State;
+	private List<Timestamp> reviewedAt;
 
 	/**
 	 * 
@@ -118,6 +120,20 @@ public class ReviewDetailOnDateForMemebers implements Serializable {
 		State = state;
 	}
 
+	/**
+	 * @return the reviewedAt
+	 */
+	public List<Timestamp> getReviewedAt() {
+		return reviewedAt;
+	}
+
+	/**
+	 * @param reviewedAt the reviewedAt to set
+	 */
+	public void setReviewedAt(List<Timestamp> reviewedAt) {
+		this.reviewedAt = reviewedAt;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -127,6 +143,7 @@ public class ReviewDetailOnDateForMemebers implements Serializable {
 		result = prime * result + ((repoName == null) ? 0 : repoName.hashCode());
 		result = prime * result + ((reviewComment == null) ? 0 : reviewComment.hashCode());
 		result = prime * result + ((reviewDate == null) ? 0 : reviewDate.hashCode());
+		result = prime * result + ((reviewedAt == null) ? 0 : reviewedAt.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		return result;
 	}
@@ -165,6 +182,11 @@ public class ReviewDetailOnDateForMemebers implements Serializable {
 				return false;
 		} else if (!reviewDate.equals(other.reviewDate))
 			return false;
+		if (reviewedAt == null) {
+			if (other.reviewedAt != null)
+				return false;
+		} else if (!reviewedAt.equals(other.reviewedAt))
+			return false;
 		if (userName == null) {
 			if (other.userName != null)
 				return false;
@@ -177,7 +199,7 @@ public class ReviewDetailOnDateForMemebers implements Serializable {
 	public String toString() {
 		return "ReviewDetailOnDateForMemebers [userName=" + userName + ", repoName=" + repoName + ", reviewDate="
 				+ reviewDate + ", reviewComment=" + reviewComment + ", pullNUmber=" + pullNUmber + ", State=" + State
-				+ "]";
+				+ ", reviewedAt=" + reviewedAt + "]";
 	}
 
 }
