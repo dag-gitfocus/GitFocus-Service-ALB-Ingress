@@ -2,8 +2,11 @@ package com.gitfocus.db.ui.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.keycloak.KeycloakSecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,11 +21,12 @@ import com.gitfocus.git.db.model.Teams;
  */
 @RestController
 public class ListTeamsUIController {
-
+	private final HttpServletRequest request;
 	private static final Logger logger = LogManager.getLogger(ListTeamsUIController.class.getSimpleName());
 
 	public ListTeamsUIController() {
 		super();
+		this.request = null;
 		logger.info("ListTeamsController init");
 	}
 	@Autowired
@@ -72,5 +76,11 @@ public class ListTeamsUIController {
 		logger.info("getRepoByTeam Records " + repoByTeam);
 		return repoByTeam;
 	}
+	
+	
+	private KeycloakSecurityContext getKeycloakSecurityContext() {
+		  return (KeycloakSecurityContext)
+		  request.getAttribute(KeycloakSecurityContext.class.getName()); }
+		 
 
 }
