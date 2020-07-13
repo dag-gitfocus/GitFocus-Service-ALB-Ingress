@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.session.RegisterSessionAu
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
 /**
- * @author <a href="mailto:psilva@redhat.com">Pedro Igor</a>
+ * @author <a href="mailto:psilva@redhat.com">Pedro Igor</a> 
  */
 @KeycloakConfiguration
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {

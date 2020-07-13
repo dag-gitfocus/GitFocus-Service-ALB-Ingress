@@ -16,7 +16,7 @@ import com.gitfocus.db.ui.service.IListUITeamsService;
 import com.gitfocus.git.db.model.Teams;
 
 /**
- * @author Tech Mahindra 
+ * @author Tech Mahindra  
  * To list no of Teams and corresponding repository for each Teams from database to GUI
  */
 @RestController
