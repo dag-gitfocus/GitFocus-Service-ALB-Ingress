@@ -22,63 +22,61 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @KeycloakConfiguration
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
-    /**
-     * Registers the KeycloakAuthenticationProvider with the authentication manager.
-     */
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(keycloakAuthenticationProvider());
-    }
+	/**
+	 * Registers the KeycloakAuthenticationProvider with the authentication manager.
+	 */
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) {
+		auth.authenticationProvider(keycloakAuthenticationProvider());
+	}
 
-    /**
-     * Defines the session authentication strategy.
-     */
-    @Bean
-    @Override
-    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-        return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
-    }
+	/**
+	 * Defines the session authentication strategy.
+	 */
+	@Bean
+	@Override
+	protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+		return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
+	}
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-        http.logout().logoutSuccessUrl("/home")
-                .and()
-                .authorizeRequests()
-                .antMatchers("/**").fullyAuthenticated();
-    }
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		super.configure(http);
+		http.logout().logoutSuccessUrl("/home").and().authorizeRequests().antMatchers("/**").fullyAuthenticated();
+	}
 
-    /**
-     * Overrides default keycloak config resolver behaviour (/WEB-INF/keycloak.json) by a simple mechanism.
-     * <p>
-     * This example loads other-keycloak.json when the parameter use.other is set to true, e.g.:
-     * {@code ./gradlew bootRun -Duse.other=true}
-     *
-     * @return keycloak config resolver
-     */
-    @Bean
-    public KeycloakConfigResolver keycloakConfigResolver() {
-        return new KeycloakConfigResolver() {
+	/**
+	 * Overrides default keycloak config resolver behaviour (/WEB-INF/keycloak.json)
+	 * by a simple mechanism.
+	 * <p>
+	 * This example loads other-keycloak.json when the parameter use.other is set to
+	 * true, e.g.: {@code ./gradlew bootRun -Duse.other=true}
+	 *
+	 * @return keycloak config resolver
+	 */
+	@Bean
+	public KeycloakConfigResolver keycloakConfigResolver() {
+		return new KeycloakConfigResolver() {
 
-            private KeycloakDeployment keycloakDeployment;
+			private KeycloakDeployment keycloakDeployment;
 
-            @Override
-            public KeycloakDeployment resolve(HttpFacade.Request facade) {
-                if (keycloakDeployment != null) {
-                    return keycloakDeployment;
-                }
+			@Override
+			public KeycloakDeployment resolve(HttpFacade.Request facade) {
+				if (keycloakDeployment != null) {
+					return keycloakDeployment;
+				}
 
-                String path = "/keycloak.json";
-                InputStream configInputStream = getClass().getResourceAsStream(path);
+				String path = "/keycloak.json";
+				InputStream configInputStream = getClass().getResourceAsStream(path);
 
-                if (configInputStream == null) {
-                    throw new RuntimeException("Could not load Keycloak deployment info: " + path);
-                } else {
-                    keycloakDeployment = KeycloakDeploymentBuilder.build(configInputStream);
-                }
+				if (configInputStream == null) {
+					throw new RuntimeException("Could not load Keycloak deployment info: " + path);
+				} else {
+					keycloakDeployment = KeycloakDeploymentBuilder.build(configInputStream);
+				}
 
-                return keycloakDeployment;
-            }
-        };
-    }
+				return keycloakDeployment;
+			}
+		};
+	}
 }

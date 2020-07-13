@@ -16,7 +16,7 @@ import com.gitfocus.db.ui.service.IListUITeamsService;
 import com.gitfocus.git.db.model.Teams;
 
 /**
- * @author Tech Mahindra
+ * @author Tech Mahindra 
  * To list no of Teams and corresponding repository for each Teams from database to GUI
  */
 @RestController
@@ -29,6 +29,7 @@ public class ListTeamsUIController {
 		this.request = null;
 		logger.info("ListTeamsController init");
 	}
+
 	@Autowired
 	private IListUITeamsService teamRepo;
 
@@ -43,6 +44,7 @@ public class ListTeamsUIController {
 		logger.info("getTeams Records " + team);
 		return team;
 	}
+
 	/**
 	 * 
 	 * @param unitId
@@ -54,6 +56,7 @@ public class ListTeamsUIController {
 		logger.info("getAllTeams Records " + team);
 		return team;
 	}
+
 	/**
 	 * 
 	 * @param teamId
@@ -65,6 +68,7 @@ public class ListTeamsUIController {
 		logger.info("getTeamMembers Records " + listOfTeamMembers);
 		return listOfTeamMembers;
 	}
+
 	/**
 	 * 
 	 * @param teamId
@@ -76,11 +80,9 @@ public class ListTeamsUIController {
 		logger.info("getRepoByTeam Records " + repoByTeam);
 		return repoByTeam;
 	}
-	
-	
+
 	private KeycloakSecurityContext getKeycloakSecurityContext() {
-		  return (KeycloakSecurityContext)
-		  request.getAttribute(KeycloakSecurityContext.class.getName()); }
-		 
+		return (KeycloakSecurityContext) request.getAttribute(KeycloakSecurityContext.class.getName());
+	}
 
 }
