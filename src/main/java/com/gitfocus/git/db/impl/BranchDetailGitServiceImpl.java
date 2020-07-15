@@ -53,7 +53,6 @@ public class BranchDetailGitServiceImpl implements IBranchDetailGitService {
 	int unitId = 0;
 	String branchResult = null;
 	String branchDetailURI = null;
-	RestTemplate restTemplate = new RestTemplate();
 	JSONArray jsonBranchArray = null;
 	JSONObject branchObj = null;
 	String branchName = null;
