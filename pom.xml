@@ -12,7 +12,7 @@
 	<groupId>com.gitfocus</groupId>
 	<artifactId>GitFocus-Service</artifactId>
 	<version>1.0</version>
-	<name>GitFocus-Application</name>
+	<name>GitFocus-Service</name>
 	<description>GitFocus-Service</description>
 
 	<properties>
