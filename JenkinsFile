@@ -22,12 +22,13 @@ pipeline {
 	    sh "mvn -Dmaven.test.skip=true clean install" 
       }  
     }  
-   }
+   
    stage ("Code Analysis") {
       steps {
 	    withSonarQubeEnv('SonarQube') {
 	         sh "mvn sonar:sonar -Dsonar.projectKey=GitFocus-Service"
 		 }
      }
-     }
+   }
+  }
 }
