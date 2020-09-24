@@ -21,11 +21,6 @@ pipeline {
       steps {
 	    sh "mvn -Dmaven.test.skip=true clean install" 
       }  
-    }   
-  post {
-    always {
-      cleanWs()
-    }
-  }
+    }  
 }
 }
