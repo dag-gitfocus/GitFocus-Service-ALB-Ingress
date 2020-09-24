@@ -1,5 +1,6 @@
 # For Java 8 open jdk, try this
 FROM adoptopenjdk/openjdk11:alpine-jre
+RUN yum -y update
 
 #Copy target/vanigam-api.jar to build context
 COPY target/gitfocus-service.jar gitfocus-service.jar
