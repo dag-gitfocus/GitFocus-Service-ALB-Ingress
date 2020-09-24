@@ -1,9 +1,8 @@
-FROM openjdk
-RUN yum -y update
-RUN yum -y install git
-RUN mkdir /home/gitfocus
-WORKDIR /home/gitfocus
-RUN git clone https://github.com/dag-gitfocus/GitFocusService_kube.git
-WORKDIR /home/gitfocus/GitFocusService_kube
+# For Java 8 open jdk, try this
+FROM adoptopenjdk/openjdk11:alpine-jre
+
+#Copy target/vanigam-api.jar to build context
+COPY target/gitfocus-service.jar gitfocus-service.jar
 EXPOSE 8888
-ENTRYPOINT ["java","-jar","/home/gitfocus/GitFocusService_kube/GitFocus-Service-0.0.1-SNAPSHOT.jar"]
+# java -jar vanigam-api.jar
+ENTRYPOINT ["java","-jar","gitfocus-service.jar"]
