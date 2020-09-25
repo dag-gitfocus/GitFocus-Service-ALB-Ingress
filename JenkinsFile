@@ -1,7 +1,7 @@
 pipeline {
   environment {
     registry = "priya2802/gitfocus_service_kube"
-    registryCredential = 'GitFocus-DockerHub'
+    registryCredential = 'GITFocus-DockerHub'
     dockerImage = ''
   }
   agent any
