@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * @author Tech Mahindra 
  * Initial class to boot GitFocus Application
+ * Testing CI-CD
  */
 @SpringBootApplication
 public class GitFocusApplication {
