@@ -1,15 +1,14 @@
 pipeline {
   environment {
     registry = "priya2802/gitfocus_service_kube"
-    registryCredential = 'GITFocus-DockerHub'
+    registryCredential = 'dockerhub_id'
     dockerImage = ''
   }
    agent any
    tools { 
      maven 'maven 3.6.3' 
    }
-   
-    stage('Deploy to Kubernetes'){
+   stage('Deploy to Kubernetes'){
         steps{
          	sh "ssh ubuntu@ec2-13-232-156-182.ap-south-1.compute.amazonaws.com"
             sh 'kubectl apply -f deployment.yml'
