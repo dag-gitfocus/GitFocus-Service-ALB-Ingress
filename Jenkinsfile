@@ -4,6 +4,10 @@ pipeline {
     registryCredential = 'dockerhub_id'
     dockerImage = ''
   }
+    agent any
+  tools { 
+    maven 'maven 3.6.3' 
+  }	
    stages {
    stage('Deploy to Kubernetes'){
         steps{
