@@ -1,13 +1,10 @@
 pipeline {
   environment {
     registry = "priya2802/gitfocus_service_kube"
-    registryCredential = 'dockerhub_id'
+    registryCredential = 'dockerhub_credentials'
     dockerImage = ''
   }
     agent any
-  tools { 
-    maven 'maven 3.6.3' 
-  }	
    stages {
    stage('Deploy to Kubernetes'){
         steps{
