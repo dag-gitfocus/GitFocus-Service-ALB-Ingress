@@ -8,7 +8,7 @@ pipeline {
    stages {
    stage('Deploy to Kubernetes'){
         steps{
-         	sh "ssh ubuntu@ec2-13-232-156-182.ap-south-1.compute.amazonaws.com"
+         	sh "ec2-15-206-69-254.ap-south-1.compute.amazonaws.com"
             sh 'kubectl apply -f deployment.yml'
        }
     }
