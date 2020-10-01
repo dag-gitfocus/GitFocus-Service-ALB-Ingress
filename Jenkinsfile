@@ -8,7 +8,7 @@ pipeline {
    stages {
    stage('Deploy to Kubernetes'){
         steps{
-         	sh "ssh -o StrictHostKeyChecking=no ubuntu@15.206.69.254"
+         	sh "ssh -o StrictHostKeyChecking=no ubuntu@localhost"
             sh 'kubectl apply -f deployment.yml'
        }
     }
