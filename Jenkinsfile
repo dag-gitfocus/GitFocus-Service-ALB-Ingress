@@ -8,7 +8,7 @@ pipeline {
    stages {
    stage('Deploy to Kubernetes'){
         steps{
-         	sh "ssh ubuntu@172.31.35.76"
+         	sh "ssh -tt ubuntu@172.31.35.76"
             sh 'kubectl apply -f deployment.yml'
        }
     }
