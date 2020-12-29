@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "springprofile.fullname" . }}
+  name: {{ include "gitfocus.fullname" . }}
   labels:
-    {{- include "springprofile.labels" . | nindent 4 }}
+    {{- include "gitfocus.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "springprofile.selectorLabels" . | nindent 6 }}
+      {{- include "gitfocus.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,13 +18,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "springprofile.selectorLabels" . | nindent 8 }}
+        {{- include "gitfocus.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "springprofile.serviceAccountName" . }}
+      serviceAccountName: {{ include "gitfocus.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
