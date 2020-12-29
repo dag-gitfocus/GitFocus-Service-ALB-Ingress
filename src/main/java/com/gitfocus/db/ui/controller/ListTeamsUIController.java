@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.keycloak.KeycloakSecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,10 +78,6 @@ public class ListTeamsUIController {
 		List<Object> repoByTeam = teamRepo.getReposForTeam(teamId);
 		logger.info("getRepoByTeam Records " + repoByTeam);
 		return repoByTeam;
-	}
-
-	private KeycloakSecurityContext getKeycloakSecurityContext() {
-		return (KeycloakSecurityContext) request.getAttribute(KeycloakSecurityContext.class.getName());
 	}
 
 }

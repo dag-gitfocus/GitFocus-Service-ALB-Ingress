@@ -2,15 +2,7 @@ pipeline {
 
   agent any 
 
-  stages {
-
-    stage('Checkout Source') {
-      steps {
-        git url:'https://github.com/dag-gitfocus/GitFocus_Service.git'
-      }
-    }
-
-    stage('Deploy App') {
+    stage('Deploy App to Kubernetes') {
       steps {
         script {
           kubernetesDeploy(configs: "nginx.yaml", kubeconfigId: "mykubeconfig")
@@ -19,5 +11,4 @@ pipeline {
     }
 
   }
-
 }
