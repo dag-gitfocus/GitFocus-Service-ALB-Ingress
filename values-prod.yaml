@@ -1,9 +1,9 @@
-# Default values for gitfocus.
+# Default values for springprofile.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
-appName:gitfocus
+appName: springprofile
 
 image:
   repository: psmsenthilkumar/gitfocus
@@ -12,12 +12,9 @@ image:
 java_opt_key: "--spring.profiles.active"
 java_opt_value: "prod"
   # Overrides the image tag whose default is the chart appVersion.
-
-
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
-
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
