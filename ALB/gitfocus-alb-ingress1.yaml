@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: "gitfocus-alb-ingress"
+  namespace: "gitfocus-alb-ns"
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+  labels:
+    app: gitfocus-alb-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /hellospring
+            backend:
+              serviceName: "gitfocus-alb-hellospring-service"
+              servicePort: 4041
+          - path: /byespring
+            backend:
+              serviceName: "gitfocus-alb-byespring-service"
+              servicePort: 4041
+          - path: /gitfocus/getTeams/1001
+            backend:
+              serviceName: "gitfocus-alb-byespring-service"
+              servicePort: 4041

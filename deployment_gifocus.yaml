@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -13,10 +12,10 @@ spec:
         spec:
             containers:
             - name: gitservice-container
-              image: priya2802/gitfocus_service_kube
+              image: psmsenthilkumar/gitfocus
               ports:
-              - containerPort: 8888
-    replicas: 3
+              - containerPort: 4041
+    replicas: 1
     selector:
         matchLabels:
             app: gitservice
@@ -29,8 +28,8 @@ metadata:
 spec:
     type: LoadBalancer
     ports:
-        - targetPort: 8888
-          port: 8888
+        - targetPort: 4041
+          port: 4041
     selector:
         app: gitservice
         tier: backend

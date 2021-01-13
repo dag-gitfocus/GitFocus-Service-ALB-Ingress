@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "gitfocus-deployment"
+  namespace: "gitfocus-ns"
+spec:
+  selector:
+    matchLabels:
+      app: "gitfocus"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: "gitfocus"
+    spec:
+      containers:
+      - image: psmsenthilkumar/gitfocus
+        imagePullPolicy: Always
+        name: "gitfocus-container"
+        ports:
+        - containerPort: 4041

@@ -37,6 +37,26 @@ public class GitFocusApplication {
 		}
 	}
 
+	@RestController
+	class HelloSpring {
+
+		@GetMapping("/hellospring")
+		public String helloSpringProfile() {
+
+			return "Hello Spring ....!";
+		}
+	}
+
+	@RestController
+	class ByeSpring {
+
+		@GetMapping("/byespring")
+		public String helloSpringProfile() {
+
+			return "Bye Bye Spring ....!";
+		}
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(GitFocusApplication.class, args);
 	}
