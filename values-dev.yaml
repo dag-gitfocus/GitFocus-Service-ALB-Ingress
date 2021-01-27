@@ -6,7 +6,7 @@ replicaCount: 1
 appName: gitfocus
 
 image:
-  repository: psmsenthilkumar/gitfocus
+  repository: priya2802/gitfocus_service_kube
   tag: latest
   pullPolicy: Always
 java_opt_key: "--spring.profiles.active"
