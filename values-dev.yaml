@@ -39,7 +39,7 @@ securityContext: {}
 
 service:
   type: LoadBalancer
-  port: 4041
+  port: 4042
 
 ingress:
   enabled: false
