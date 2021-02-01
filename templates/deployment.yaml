@@ -34,15 +34,6 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args: [ {{ .Values.java_opt_key }}={{ .Values.java_opt_value }} ]
-          volumeMounts:
-        - mountPath: /var/lib
-          name: Gitfocuslog
-      volumes:
-      - name: Gitfocuslog
-        hostPath:
-           # Ensure the file directory is created.
-          path: /app/GitFocus_Service/Gitfocuslog
-          type: DirectoryOrCreate
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
