@@ -12,9 +12,9 @@ spec:
         spec:
             containers:
             - name: gitservice-container
-              image: psmsenthilkumar/gitfocus
+              image: priya2802/gitfocus_service_kube
               ports:
-              - containerPort: 4041
+              - containerPort: 4043
     replicas: 1
     selector:
         matchLabels:
@@ -28,8 +28,8 @@ metadata:
 spec:
     type: LoadBalancer
     ports:
-        - targetPort: 4041
-          port: 4041
+        - targetPort: 4043
+          port: 4043
     selector:
         app: gitservice
         tier: backend
