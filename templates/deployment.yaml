@@ -37,8 +37,8 @@ spec:
           volumeMounts:
         - mountPath: /var/lib
           name: Gitfocuslog
-        volumes:
-        - name: Gitfocuslog
+      volumes:
+      - name: Gitfocuslog
         hostPath:
            # Ensure the file directory is created.
           path: /app/GitFocus_Service/Gitfocuslog
