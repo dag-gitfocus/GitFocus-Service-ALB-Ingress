@@ -4,6 +4,6 @@ FROM adoptopenjdk/openjdk11:alpine-jre
 
 COPY target/gitfocus-service.jar gitfocus-service.jar
 
-EXPOSE 8888
+EXPOSE 4041
 
 ENTRYPOINT ["java","-jar","gitfocus-service.jar"]

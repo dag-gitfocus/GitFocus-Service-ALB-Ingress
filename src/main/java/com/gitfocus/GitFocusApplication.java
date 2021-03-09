@@ -22,7 +22,7 @@ public class GitFocusApplication {
 		logger.info("Starting GitFocus-Service Application..");
 	}
 
-	@RestController
+	@RestController 
 	class HelloSpring {
 
 		@GetMapping("/hellospring")
