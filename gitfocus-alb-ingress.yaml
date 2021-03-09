@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: "gitfocus-ingress"
+  namespace: "gitfocus-ns1"
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+  labels:
+    app: gitfocus-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /*
+            backend: 
+              serviceName: "gitfocus-service"
+              servicePort: 4041
