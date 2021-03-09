@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: "gitfocus-alb-ingress-service"
-  namespace: "gitfocus-ns1"
+  namespace: "gitfocus-alb-ns"
 spec:
   ports:
     - port: 4041
@@ -10,4 +10,4 @@ spec:
       protocol: TCP
   type: NodePort
   selector:
-    app: "gitfocus"
+    app: "gitfocus-alb-ingress"

@@ -2,16 +2,16 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: "gitfocus-alb-ingress-deployment"
-  namespace: "gitfocus-ns1"
+  namespace: "gitfocus-alb-ns"
 spec:
   selector:
     matchLabels:
-      app: "gitfocus"
+      app: "gitfocus-alb-ingress"
   replicas: 3
   template:
     metadata:
       labels:
-        app: "gitfocus"
+        app: "gitfocus-alb-ingress"
     spec:
       containers:
       - image: psmsenthilkumar/gitfocus-alb-ingress
