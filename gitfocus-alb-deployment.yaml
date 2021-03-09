@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "gitfocus-deployment"
+  name: "gitfocus-alb-ingress-deployment"
   namespace: "gitfocus-ns1"
 spec:
   selector:
@@ -14,8 +14,8 @@ spec:
         app: "gitfocus"
     spec:
       containers:
-      - image: psmsenthilkumar/gitfocus
+      - image: psmsenthilkumar/gitfocus-alb-ingress
         imagePullPolicy: Always
-        name: "gitfocus-container"
+        name: "gitfocus-alb-ingress-container"
         ports:
         - containerPort: 4041
